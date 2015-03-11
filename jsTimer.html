@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+	<title>Countdown Timer</title>
+</head>
+<body onload="window_onload()">
+	<div id="timer">
+		<p id="digits">Tha Digits</p>
+		<input type="button" value="Start" onclick="startTimer()"/>
+		<input type="button" value="Stop" onclick="stopTimer()"; />
+	</div>
+	<script type="text/javascript">
+	var time = 65;
+	var timerActive = false;
+
+	function displayTime()
+	//formats and prints remaining time
+	{
+		var outputStr = "";
+		
+		var mins = Math.floor(time / 60);
+		if (mins < 10)
+		{
+			mins = "0" + mins;
+		}
+		var seconds = time % 60;
+		if (seconds < 10)
+		{
+			seconds = "0" + seconds;
+		}
+		
+		outputStr += mins + ":" + seconds;
+		
+		document.getElementById("digits").innerHTML = outputStr;
+	}
+	
+	function startTimer()
+	//begins the timer countdown
+	{
+		timerActive = true;
+		displayTime();
+		setTimeout(decreaseTime, 1000);
+	}
+	
+	function stopTimer()
+	{
+		time++;
+		timerActive = false;
+	}
+	
+	function decreaseTime()
+	//decrements time and 
+	{
+		time--;
+		displayTime();
+		if(time == 0)
+		{
+			alert("timer is done!");
+		}
+		else if (timerActive)
+		{
+			setTimeout(decreaseTime, 1000);
+		}
+	
+	}
+	function window_onload()
+	{
+	}
+	</script>
+</body>
+</html>
