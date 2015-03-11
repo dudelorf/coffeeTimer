@@ -4,12 +4,18 @@
 </head>
 <body onload="window_onload()">
 	<div id="timer">
-		<p id="digits">Tha Digits</p>
+		<input type="button" value="Mins++" onclick="adjustTime('m', '+')"/>
+		<input type="button" value="Secs++" onclick="adjustTime('s', '+')"/>
+		<p id="digits"></p>	
+		<input type="button" value="Mins--" onclick="adjustTime('m', '-')"/>
+		<input type="button" value="Secs--" onclick="adjustTime('s', '-')"/>
 		<input type="button" value="Start" onclick="startTimer()"/>
 		<input type="button" value="Stop" onclick="stopTimer()"; />
 	</div>
-	<script type="text/javascript">
+<script type="text/javascript">
+	//variable to hold time
 	var time = 65;
+	//tracks activity of timer
 	var timerActive = false;
 
 	function displayTime()
@@ -33,6 +39,22 @@
 		document.getElementById("digits").innerHTML = outputStr;
 	}
 	
+	function adjustTime(valu, oper)
+	{
+		if (timerActive) return;
+		if (valu == "m")
+		{
+			if (oper == '+') time+=60;
+			else if (time >= 60) time-=60;
+		}
+		else
+		{
+			if (oper == "+") time++;
+			else if (time > 0) time --;
+		}
+		displayTime();
+	}
+	
 	function startTimer()
 	//begins the timer countdown
 	{
@@ -48,12 +70,13 @@
 	}
 	
 	function decreaseTime()
-	//decrements time and 
+	//decrements time and alerts if timer is finished
 	{
 		time--;
 		displayTime();
 		if(time == 0)
 		{
+			timerActive = false;
 			alert("timer is done!");
 		}
 		else if (timerActive)
@@ -63,8 +86,10 @@
 	
 	}
 	function window_onload()
+	//initialization commands
 	{
+		displayTime();
 	}
-	</script>
+</script>
 </body>
 </html>
