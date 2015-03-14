@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <head>
 	<title>Countdown Timer</title>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css" />
 </head>
 <body onload="window_onload()">
 	<div id="timer">
-		<input type="button" value="Mins++" onclick="adjustTime('m', '+')"/>
-		<input type="button" value="Secs++" onclick="adjustTime('s', '+')"/>
 		<p id="digits"></p>	
-		<input type="button" value="Mins--" onclick="adjustTime('m', '-')"/>
-		<input type="button" value="Secs--" onclick="adjustTime('s', '-')"/>
 		<input type="button" value="Start" onclick="startTimer()"/>
-		<input type="button" value="Stop" onclick="stopTimer()"; />
+		<input type="button" value="Stop" onclick="stopTimer()"; /><br />
+		<div id="volumeSelector">
+			<div id="lessVolume"><img src="leftArrow.png"/></div>
+			<p id="brewVolume">0 oz</p>
+			<div id="moreVolume"><img src="rightArrow.png"/></div>
+		</div>
+		
 	</div>
+	<p id="messenger">Click start to begin</p>
 <script type="text/javascript">
+	
 	//variable to hold time
-	var time = 65;
+	var time = 0;
 	//tracks activity of timer
 	var timerActive = false;
+	var timeIntervals = [3, 3, 3];
+	var messages = ["bloom", "pour", "draw down"];
+	var phase = 0;
 
 	function displayTime()
 	//formats and prints remaining time
@@ -58,7 +66,10 @@
 	function startTimer()
 	//begins the timer countdown
 	{
+		phase = 0;
 		timerActive = true;
+		time = timeIntervals[phase];
+		document.getElementById("messenger").innerHTML = messages[phase];
 		displayTime();
 		setTimeout(decreaseTime, 1000);
 	}
@@ -67,6 +78,15 @@
 	{
 		time++;
 		timerActive = false;
+		phase = 0;
+	}
+	
+	function newInterval()
+	{
+		time = timeIntervals[phase];
+		displayTime();
+		document.getElementById("messenger").innerHTML = messages[phase];
+		setTimeout(decreaseTime, 1000);
 	}
 	
 	function decreaseTime()
@@ -76,8 +96,16 @@
 		displayTime();
 		if(time == 0)
 		{
-			timerActive = false;
-			alert("timer is done!");
+			phase++;
+			if (phase == timeIntervals.length)
+			{
+				timerActive = false;
+				document.getElementById("messenger").innerHTML = "Timer is done";
+			}
+			else
+			{
+				setTimeout(newInterval, 1000);
+			}
 		}
 		else if (timerActive)
 		{
