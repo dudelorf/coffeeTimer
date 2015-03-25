@@ -1,0 +1,104 @@
+#container{
+  border: 2px solid #94B8B8;
+  width: 400px;
+  height: 700px;
+  background-color: #E8BA8D;
+  box-shadow:2px 2px;
+}
+#backNav
+{
+  background-color: #E6E6E6;
+  padding:5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+#backNav img
+{
+  width:40px;
+  height:40px;
+}
+#backNav label{
+  font: 20px arial;
+  position: relative;
+  top: -13px;
+}
+h1{
+  font: 40px arial;
+  letter-spacing: 4px;
+  color:white;
+  text-align:center;
+  margin-bottom:0px;
+}
+#volumeContainer h2{
+  font:30px arial;
+  text-indent: 20px;
+  color:white;
+  display:inline-block;
+}
+#volumeNav{
+  display:inline-block;
+  position:relative;
+  left:20px;
+  top:10px;
+  height:75px;
+}
+#volumeNav img{
+  border:2px solid white;
+  border-radius:50%;
+  display:inline-block;
+  margin:10px 20px -5px;
+  background-color: #94B8B8;
+  width:40px;
+  height:40px;
+}
+#volumeNav img:hover{
+  background-color:gray;
+}
+#volumeNav p{
+  display:inline;
+  font:30px arial;
+  position:relative;
+  top: -5px;
+  display:inline-block;
+  width:35px;
+  text-align:center;
+  font-weight: bolder;
+  color:white;
+  text-shadow: 2px 2px black
+}
+#volumeNav label{
+  font: 18px arial;
+  position:relative;
+  top: -10px;
+  color:white;
+}
+#gramsCoffeeDisplay, #gramsWaterDisplay{
+  display:inline-block;
+  width: 49%;
+  text-align:center;
+  font:15px arial;
+  color: white;
+}
+#gramsCoffeeDisplay h2, #gramsWaterDisplay h2{
+  margin:10px 0px 10px;
+}
+#gramsCoffeeDisplay p, #gramsWaterDisplay p{
+  font-size: 30px;
+  text-shadow: 2px 2px black;
+  margin:0px;
+}
+#timer{
+  text-align:center;
+  margin-top:30px;
+  color:white;
+}
+#clock{
+  font-size:40px;
+  font-family:impact, arial, sanserif;
+  letter-spacing: 5px;
+  margin:0px;
+  text-shadow: 2px 2px black;
+}
+#memo{
+  font:18px arial;
+}
