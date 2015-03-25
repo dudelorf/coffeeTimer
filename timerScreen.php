@@ -13,9 +13,9 @@
 	<div id="volumeContainer">
 		<h2>Volume</h2>
 		<div id="volumeNav">
-		<img src="images/upArrow.png" onclick="updateVolume(++volume)"/>
+		<img src="images/upArrow.png" onclick="changeVolume('+')"/>
 		<p id="volumeDisplay">?</p><label> oz</label>
-		<img src="images/downArrow.png" onclick="updateVolume(--volume)"/>
+		<img src="images/downArrow.png" onclick="changeVolume('-')"/>
 		</div>
 	</div>
 	<div id="gramsCoffeeDisplay">
@@ -32,7 +32,7 @@
 		<input type="button" value="Start Timer" onclick="alert('Begin!')" />
 	</div>
 	</div>
-	
+	<script type="text/javascript" src="lib/timer.js"></script>
 	<script type="text/javascript">
 		//global variables
 		<?php
@@ -49,15 +49,13 @@
 			$query = "Select * from recipes where methodName='".$theMethod."'";
 			
 			$result = $db->query($query);
-			$theRecipe = json_encode($result->fetch_assoc());
+			$theRecipe = $result->fetch_assoc();
+			$theRecipe->phases = unserialize($theRecipe->phases);
 			
-			echo "var toBrew = $theRecipe;";
 			$db->close();
 		?>
-
-		var volume = 0;
-		var phase = 0;
-
+		var timer
+		
 	//utility functions to calculate recipe details
 		function getGramsCoffee(vol, brewRatio)
 		//returns grams of coffee when supplied volume in oz and brew ratio in gramsCoffee/ozWater
@@ -76,11 +74,13 @@
 			return mlVol * 10;
 		}
 		
-		function updateVolume(newVol)
+		function changeVolume(opr)
 		{
-			document.getElementById("volumeDisplay").innerHTML = newVol;
-			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(newVol, toBrew.brewRatio);
-			document.getElementById("gramsWater").innerHTML = getGramsWater(newVol, toBrew.brewRatio);
+			if (opr == '+') timer.increaseVolume();
+			else timer.decreaseVolume();
+			document.getElementById("volumeDisplay").innerHTML = timer.getVolume();
+			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(timer.getVolume(), timer.getBrewRatio());
+			document.getElementById("gramsWater").innerHTML = getGramsWater(timer.getVolume(), timer.getBrewRatio());
 		}
 	
 	//timer functions
@@ -89,16 +89,16 @@
 		function loadRecipe()
 		//makes recipe data avilable to app
 		{
-			volume = toBrew.defaultVolume;
-			document.getElementById("brewName").innerHTML = toBrew.methodName;
-			document.getElementById("volumeDisplay").innerHTML = volume;
-			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(volume, toBrew.brewRatio);
-			document.getElementById("gramsWater").innerHTML = getGramsWater(volume, toBrew.brewRatio);
+			document.getElementById("brewName").innerHTML = timer.getMethodName();
+			document.getElementById("volumeDisplay").innerHTML = timer.getVolume();
+			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(timer.getVolume(), timer.getBrewRatio());
+			document.getElementById("gramsWater").innerHTML = getGramsWater(timer.getVolume(), timer.getBrewRatio());
 			
 		}
 		function window_onload()
 		//page init
 		{
+			timer = = new Timer(<?php echo json_encode($theRecipe); ?>);
 			loadRecipe();
 		}
 	</script>
