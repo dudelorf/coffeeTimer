@@ -29,7 +29,7 @@
 	<div id="timer">
 		<p id="clock">00:00</p>
 		<p id="memo">Click Start Button to Begin!</p>
-		<input type="button" value="Start Timer" onclick="alert('Begin!')" />
+		<input type="button" value="Start Timer" onclick="timer.startTimer()" />
 	</div>
 	</div>
 	<script type="text/javascript" src="lib/timer.js"></script>
@@ -50,11 +50,11 @@
 			
 			$result = $db->query($query);
 			$theRecipe = $result->fetch_assoc();
-			$theRecipe->phases = unserialize($theRecipe->phases);
+			$theRecipe['phases'] = unserialize($theRecipe['phases']);
 			
 			$db->close();
 		?>
-		var timer
+		var timer;
 		
 	//utility functions to calculate recipe details
 		function getGramsCoffee(vol, brewRatio)
@@ -93,12 +93,13 @@
 			document.getElementById("volumeDisplay").innerHTML = timer.getVolume();
 			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(timer.getVolume(), timer.getBrewRatio());
 			document.getElementById("gramsWater").innerHTML = getGramsWater(timer.getVolume(), timer.getBrewRatio());
+			timer.showTime(timer.getTotalTime());
 			
 		}
 		function window_onload()
 		//page init
 		{
-			timer = = new Timer(<?php echo json_encode($theRecipe); ?>);
+			timer = new Timer(<?php echo json_encode($theRecipe); ?>, document.getElementById("clock"));
 			loadRecipe();
 		}
 	</script>
