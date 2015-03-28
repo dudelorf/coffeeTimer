@@ -5,7 +5,7 @@
 </head>
 <body onload="window_onload()">
 	<div id="container">
-	<div id="backNav" onclick="window.location='index.html'">
+	<div id="backNav" onclick="window.location='index.php'">
 		<img src="images/backNavArrow.png" />
 		<label>Go Back</label>
 	</div>
