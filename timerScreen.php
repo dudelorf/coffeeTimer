@@ -20,16 +20,13 @@
 	</div>
 	<div id="gramsCoffeeDisplay">
 		<h2>Grams Coffee</h2>
-		<p id="gramsCoffee">? grams Coffee</p>
+		<p id="gramsCoffee"></p>
 	</div>
 	<div id="gramsWaterDisplay">
 		<h2>Grams Water</h2>
-		<p id="gramsWater">? grams Water</p>
+		<p id="gramsWater"></p>
 	</div>
 	<div id="timer">
-		<p id="clock">00:00</p>
-		<p id="memo">Click Start Button to Begin!</p>
-		<input type="button" value="Start Timer" onclick="timer.startTimer()" />
 	</div>
 	</div>
 	<script type="text/javascript" src="lib/timer.js"></script>
@@ -99,7 +96,7 @@
 		function window_onload()
 		//page init
 		{
-			timer = new Timer(<?php echo json_encode($theRecipe); ?>, document.getElementById("clock"));
+			timer = new Timer(<?php echo json_encode($theRecipe); ?>, document.getElementById("timer"));
 			loadRecipe();
 		}
 	</script>

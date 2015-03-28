@@ -1,9 +1,30 @@
 #container{
   border: 2px solid #94B8B8;
   width: 400px;
-  height: 500px;
+  height: 550px;
   background-color: #E8BA8D;
   box-shadow:2px 2px;
+}
+#controls
+{
+  background-color: #E6E6E6;
+  padding:5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height:45px;
+}
+#controls img
+{
+  width:40px;
+  height:40px;
+}
+#addMethod
+{
+	float:left;
+}
+#editMethods
+{
+	float:right;
 }
 h1
 {
@@ -29,3 +50,4 @@ li:hover{
   margin:-2px -2px 8px -2px;
   border: 2px solid white;
 }
+
