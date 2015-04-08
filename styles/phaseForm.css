@@ -1,0 +1,9 @@
+.removePhaseButton
+{
+	width:150px;
+	display:inline-block;
+	color:white;
+	background-color:green;
+	float:right;
+	text-align:center;
+}

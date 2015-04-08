@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<head>
+	<title>New Recipe</title>
+	<link rel="stylesheet" type="text/css" href="styles/phaseForm.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			var outputStr = ""
+			for (var vol = 6; vol < 32; vol++)
+			{
+				outputStr += "<option value=" + vol + " >" + vol + "</option>";
+			}
+			$("#volSelect").append(outputStr);
+		});
+		
+		function removePhase(phaseName)
+		{
+			var phases = document.getElementsByClassName("phaseField");
+			alert(phases.length);
+			$("#"+phaseName+"Memo").remove();
+			$("#"+phaseName+"Data").remove();
+		}
+		
+		function addPhase(phaseNum)
+		{
+			var row1 = document.createElement("tr");
+			row1.innerHTML = "<td>Yo</td><td> Dude</td>"
+			var row2 = document.createElement("tr");
+			row2.innerHTML = "<td>A Name</td><td><input type=\"text\">Text thing</input></td>";
+			$("#formTable").append(row1, row2);
+		}
+	</script>
+</head>
+<body>
+	<form action="processRecipe.php" method="POST">
+		<table border="2px" id="formTable">
+		<tr>
+			<td>Method Name</td>
+			<td><input type="text" size="40" placeholder="My Chemex"></input></td>
+		</tr>
+		<tr>
+			<td>Default Volume</td>
+			<td><select id="volSelect"></select> Oz</td>
+		</tr>
+		<tr>
+			<td>Brew Ratio</td>
+			<td><input type="text" size="4" placeholder="15" ></input>
+			. <input type="text" size="3" placeholder="0" ></input>g coffee/mL water</td>
+		</tr>
+		<tr><td colspan="2" style="text-align:center">Brew Phases</td></tr>
+		<!-- first brew phase -->
+			<tr id="p1Memo" class="phaseField" >
+				<td>Phase Memo</td>
+				<td><input type="text" placeholder="Bloom"></input></td>
+			</tr>
+			<tr id="p1Data">
+			<td>Phase Length</td>
+			<td>
+				<select name="minutesP1">
+					<option value="0"> 0 </option>
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+					<option value="5"> 5 </option>
+				</select> : 
+				<select name="secondsP1">
+					<option value="0"> 00 </option>
+					<option value="15"> 15 </option>
+					<option value="30" selected="true"> 30 </option>
+					<option value="45"> 45 </option>
+				</select>
+				<div class="removePhaseButton" onclick="removePhase('p1')"> Remove phase </div>
+			</td>
+			</tr>
+		<!-- next brew phase -->
+			<tr>
+				<td class="phaseField" >Phase Memo</td>
+				<td><input type="text" placeholder="Pour"></input></td>
+			</tr>
+			<tr>
+			<td>Phase Length</td>
+			<td>
+				<select name="minutesP1">
+					<option value="0"> 0 </option>
+					<option value="1"> 1 </option>
+					<option value="2" selected="true"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+					<option value="5"> 5 </option>
+				</select> : 
+				<select name="secondsP2">
+					<option value="0"> 00 </option>
+					<option value="15" selected="true"> 15 </option>
+					<option value="30"> 30 </option>
+					<option value="45"> 45 </option>
+				</select>
+				<div style="
+						width:150px;
+						display:inline-block;
+						color:white;
+						background-color:green;
+						float:right;
+						text-align:center;"> Remove phase </div>
+			</td>
+			</tr>
+		</table>
+	</form>
+	<div onclick="addPhase(2)">New Phase</div>
+	<div id="submitThatBioch" style="
+								width:200px;
+								height:100px;
+								color:white;
+								background-color:green;
+								text-align:center;
+								vertical-align:middle;
+								line-height:100px;">Save Recipe</div>
+</body>
+</html>

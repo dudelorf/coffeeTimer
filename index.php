@@ -6,7 +6,7 @@
 <body onload="window_onload()">
 	<div id="container">
 	<div id="controls">
-		<img id="addMethod" src="images/upArrow.png" />
+		<img id="addMethod" src="images/upArrow.png" onclick="window.location='recipeForm.html'"/>
 			<label>Menu</label>
 		<img id="editMethods" src="images/backNavArrow.png" />
 	</div>
@@ -17,7 +17,19 @@
 <script type="text/javascript">
 	//load available recipes from database
 	<?php
-		$recipes = ['Chemex', 'French Press'];
+		@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
+		
+		if (mysqli_connect_errno())
+		{
+			echo "Could not connect to database. Try something else.";
+			exit;
+		}
+		
+		$query = "Select methodName from recipes";
+		
+		$result = mysqli_query($db,$query);
+		$recipes = mysqli_fetch_all($result , MYSQLI_NUM);
+
 	?>
 	var recipeArr = <?php echo json_encode($recipes); ?>;
 
