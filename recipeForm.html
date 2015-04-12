@@ -3,31 +3,76 @@
 	<title>New Recipe</title>
 	<link rel="stylesheet" type="text/css" href="styles/phaseForm.css" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="lib/handlebars-v3.0.1.js"></script>
+	<script id="volOptionTemplate" type="text/x-handlebars-template">
+		<option value={{volume}}> {{volume}} </option></script>
+	<script id="phaseFormTemplate" type="text/x-handlebars-template">
+		{{#initPhases}}
+			<tr id="p{{phaseNum}}Memo" class="phaseField" >
+				<td>Phase Memo</td>
+				<td><input type="text" placeholder={{initPlaceholder}} ></input></td>
+			</tr>
+			<tr id="p{{phaseNum}}Data">
+			<td>Phase Length</td>
+			<td>
+				<select name="minutesP{{phaseNum}}">
+					<option value="0"> 0 </option>
+					<option value="1"> 1 </option>
+					<option value="2"> 2 </option>
+					<option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+					<option value="5"> 5 </option>
+				</select> : 
+				<select name="secondsP{{phaseNum}}">
+					<option value="0"> 00 </option>
+					<option value="15"> 15 </option>
+					<option value="30" selected="true"> 30 </option>
+					<option value="45"> 45 </option>
+				</select>
+				<div class="removePhaseButton" onclick="removePhase({{phaseNum}})"> Remove phase </div>
+			</td>
+			</tr>
+		{{/initPhases}}
+	</script>
 	<script>
 		$(document).ready(function(){
-			var outputStr = ""
-			for (var vol = 6; vol < 32; vol++)
+			var volOptionTemplate = Handlebars.compile($("#volOptionTemplate").html());
+			var outputStr = "";
+			for (var vol = 7; vol < 32; vol++)
 			{
-				outputStr += "<option value=" + vol + " >" + vol + "</option>";
+				var context = {volume: vol};
+				outputStr += volOptionTemplate(context);
 			}
 			$("#volSelect").append(outputStr);
+			
+			var phaseFormTemplate = Handlebars.compile($("#phaseFormTemplate").html());
+			var initPhasesContext = {
+				initPhases : [
+					{phaseNum: 1,
+					 initPlaceholder: "Bloom"},
+					{phaseNum: 2,
+					 initPlaceholder: "Pour"},
+					{phaseNum: 3,
+					 initPlaceholder: "Drawdown"}
+				]};
+			$("#formTable").append(phaseFormTemplate(initPhasesContext));
 		});
 		
 		function removePhase(phaseName)
 		{
-			var phases = document.getElementsByClassName("phaseField");
-			alert(phases.length);
-			$("#"+phaseName+"Memo").remove();
-			$("#"+phaseName+"Data").remove();
+			$("#p"+phaseName+"Memo").remove();
+			$("#p"+phaseName+"Data").remove();
+			//rename phase numbers if necessary
 		}
 		
-		function addPhase(phaseNum)
+		function addPhase()
 		{
-			var row1 = document.createElement("tr");
-			row1.innerHTML = "<td>Yo</td><td> Dude</td>"
-			var row2 = document.createElement("tr");
-			row2.innerHTML = "<td>A Name</td><td><input type=\"text\">Text thing</input></td>";
-			$("#formTable").append(row1, row2);
+			var phaseNumber = document.getElementsByClassName("phaseField").length + 1;
+			var phaseFormTemplate = Handlebars.compile($("#phaseFormTemplate").html());
+			$("#formTable").append(
+				phaseFormTemplate({initPhases:[
+				{phaseNum:phaseNumber, initPlaceHolder:"New Phase"}
+				]}));
 		}
 	</script>
 </head>
@@ -48,65 +93,9 @@
 			. <input type="text" size="3" placeholder="0" ></input>g coffee/mL water</td>
 		</tr>
 		<tr><td colspan="2" style="text-align:center">Brew Phases</td></tr>
-		<!-- first brew phase -->
-			<tr id="p1Memo" class="phaseField" >
-				<td>Phase Memo</td>
-				<td><input type="text" placeholder="Bloom"></input></td>
-			</tr>
-			<tr id="p1Data">
-			<td>Phase Length</td>
-			<td>
-				<select name="minutesP1">
-					<option value="0"> 0 </option>
-					<option value="1"> 1 </option>
-					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
-					<option value="4"> 4 </option>
-					<option value="5"> 5 </option>
-				</select> : 
-				<select name="secondsP1">
-					<option value="0"> 00 </option>
-					<option value="15"> 15 </option>
-					<option value="30" selected="true"> 30 </option>
-					<option value="45"> 45 </option>
-				</select>
-				<div class="removePhaseButton" onclick="removePhase('p1')"> Remove phase </div>
-			</td>
-			</tr>
-		<!-- next brew phase -->
-			<tr>
-				<td class="phaseField" >Phase Memo</td>
-				<td><input type="text" placeholder="Pour"></input></td>
-			</tr>
-			<tr>
-			<td>Phase Length</td>
-			<td>
-				<select name="minutesP1">
-					<option value="0"> 0 </option>
-					<option value="1"> 1 </option>
-					<option value="2" selected="true"> 2 </option>
-					<option value="3"> 3 </option>
-					<option value="4"> 4 </option>
-					<option value="5"> 5 </option>
-				</select> : 
-				<select name="secondsP2">
-					<option value="0"> 00 </option>
-					<option value="15" selected="true"> 15 </option>
-					<option value="30"> 30 </option>
-					<option value="45"> 45 </option>
-				</select>
-				<div style="
-						width:150px;
-						display:inline-block;
-						color:white;
-						background-color:green;
-						float:right;
-						text-align:center;"> Remove phase </div>
-			</td>
-			</tr>
 		</table>
 	</form>
-	<div onclick="addPhase(2)">New Phase</div>
+	<div onclick="addPhase()">New Phase</div>
 	<div id="submitThatBioch" style="
 								width:200px;
 								height:100px;
