@@ -7,72 +7,107 @@
 	<script id="volOptionTemplate" type="text/x-handlebars-template">
 		<option value={{volume}}> {{volume}} </option></script>
 	<script id="phaseFormTemplate" type="text/x-handlebars-template">
-		{{#initPhases}}
-			<tr id="p{{phaseNum}}Memo" class="phaseField" >
-				<td>Phase Memo</td>
-				<td><input type="text" placeholder={{initPlaceholder}} ></input></td>
-			</tr>
-			<tr id="p{{phaseNum}}Data">
-			<td>Phase Length</td>
-			<td>
-				<select name="minutesP{{phaseNum}}">
-					<option value="0"> 0 </option>
-					<option value="1"> 1 </option>
-					<option value="2"> 2 </option>
-					<option value="3"> 3 </option>
-					<option value="4"> 4 </option>
-					<option value="5"> 5 </option>
-				</select> : 
-				<select name="secondsP{{phaseNum}}">
-					<option value="0"> 00 </option>
-					<option value="15"> 15 </option>
-					<option value="30" selected="true"> 30 </option>
-					<option value="45"> 45 </option>
-				</select>
-				<div class="removePhaseButton" onclick="removePhase({{phaseNum}})"> Remove phase </div>
-			</td>
-			</tr>
-		{{/initPhases}}
+		<tbody class="phaseField" id="phase{{phaseNum}}">
+		<tr class="phaseMemo">
+			<td>Phase Memo</td>
+			<td><input type="text" placeholder={{initPlaceholder}} id="memop{{phaseNum}}" name="memop{{phaseNum}}"></input></td>
+		</tr>
+		<tr class="phaseData">
+		<td>Phase Length</td>
+		<td>
+			<select name="minutesp{{phaseNum}}" id="minutesp{{phaseNum}}">
+				<option value="0"> 0 </option>
+				<option value="1"> 1 </option>
+				<option value="2"> 2 </option>
+				<option value="3"> 3 </option>
+				<option value="4"> 4 </option>
+				<option value="5"> 5 </option>
+			</select> : 
+			<select name="secondsp{{phaseNum}}" id="secondsp{{phaseNum}}">
+				<option value="0"> 00 </option>
+				<option value="15"> 15 </option>
+				<option value="30" selected="true"> 30 </option>
+				<option value="45"> 45 </option>
+			</select>
+			<div class="removePhaseButton" id="removep{{phaseNum}}"> Remove phase </div>
+		</td>
+		</tr>
+		</tbody>
+		
 	</script>
 	<script>
+		var phaseFormTemplate;
 		$(document).ready(function(){
 			var volOptionTemplate = Handlebars.compile($("#volOptionTemplate").html());
 			var outputStr = "";
+			var context = {};
 			for (var vol = 7; vol < 32; vol++)
 			{
-				var context = {volume: vol};
+				context = {volume: vol};
 				outputStr += volOptionTemplate(context);
 			}
 			$("#volSelect").append(outputStr);
 			
-			var phaseFormTemplate = Handlebars.compile($("#phaseFormTemplate").html());
-			var initPhasesContext = {
-				initPhases : [
+			//add initial phases
+			phaseFormTemplate = Handlebars.compile($("#phaseFormTemplate").html());
+			var initPhases = [
 					{phaseNum: 1,
 					 initPlaceholder: "Bloom"},
 					{phaseNum: 2,
 					 initPlaceholder: "Pour"},
 					{phaseNum: 3,
 					 initPlaceholder: "Drawdown"}
-				]};
-			$("#formTable").append(phaseFormTemplate(initPhasesContext));
+				];
+			for (var p=0; p < initPhases.length; p++)
+			{
+				context = initPhases[p];
+				addPhase(context);
+			}
 		});
 		
-		function removePhase(phaseName)
+		function removePhase(phaseNumber)
+		//removes phase supplied as phaseNumber and re-indexes phase fields if necessary
 		{
-			$("#p"+phaseName+"Memo").remove();
-			$("#p"+phaseName+"Data").remove();
-			//rename phase numbers if necessary
+			alert(phaseNumber);
+			var totalPhases = document.getElementsByClassName("phaseField").length;
+			if(phaseNumber < totalPhases)
+			//re-indexing is required
+			{
+				$("#phase" + phaseNumber).remove();
+				totalPhases--;
+				while(phaseNumber <= totalPhases)
+				{
+					$("#phase" + (phaseNumber + 1)).attr("id", "phase" + phaseNumber);
+					$("#memop" + (phaseNumber + 1)).attr("id", "memop" + phaseNumber).attr("name", "memop" + phaseNumber);
+					$("#minutesp" + (phaseNumber + 1)).attr("id", "minutesp" + phaseNumber).attr("name", "minutesp" + phaseNumber);
+					$("#secondsp" + (phaseNumber + 1)).attr("id", "secondsp" + phaseNumber).attr("name", "secondsp" + phaseNumber);
+					(function(phaseNumber){
+						$("#removep" + (phaseNumber + 1)).attr("id", "removep" + phaseNumber)
+						.off("click").on("click", function(){removePhase(phaseNumber);});
+						}(phaseNumber));
+					phaseNumber++;
+				}
+			}
+			else
+			{
+				$("#phase" + phaseNumber).remove();
+			}
+			
 		}
 		
-		function addPhase()
+		function addPhase(context)
+		//builds html for phase field and adds it to form
 		{
-			var phaseNumber = document.getElementsByClassName("phaseField").length + 1;
-			var phaseFormTemplate = Handlebars.compile($("#phaseFormTemplate").html());
-			$("#formTable").append(
-				phaseFormTemplate({initPhases:[
-				{phaseNum:phaseNumber, initPlaceHolder:"New Phase"}
-				]}));
+			$("#formTable").append(phaseFormTemplate(context));
+			$("#removep" + context.phaseNum).on("click", function(){removePhase(context.phaseNum);});
+		}
+		
+		function addNewPhase(){
+		//adds a new phase field to form
+			var newPhaseNumber = document.getElementsByClassName("phaseField").length + 1;
+			var context = {phaseNum: newPhaseNumber,
+						   initPlaceholder: "New Phase"};
+			addPhase(context);
 		}
 	</script>
 </head>
@@ -95,7 +130,7 @@
 		<tr><td colspan="2" style="text-align:center">Brew Phases</td></tr>
 		</table>
 	</form>
-	<div onclick="addPhase()">New Phase</div>
+	<div onclick="addNewPhase()">New Phase</div>
 	<div id="submitThatBioch" style="
 								width:200px;
 								height:100px;
