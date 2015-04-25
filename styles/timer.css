@@ -74,17 +74,18 @@ h1{
   color:white;
 }
 #gramsCoffeeDisplay, #gramsWaterDisplay{
+  text-weight:none;
   display:inline-block;
   width: 49%;
+  font:18px arial;
   text-align:center;
-  font:15px arial;
   color: white;
 }
 #gramsCoffeeDisplay h2, #gramsWaterDisplay h2{
   margin:10px 0px 10px;
 }
 #gramsCoffeeDisplay p, #gramsWaterDisplay p{
-  font-size: 30px;
+  font-size: 35px;
   text-shadow: 2px 2px black;
   margin:0px;
 }
@@ -101,5 +102,5 @@ h1{
   text-shadow: 2px 2px black;
 }
 #memo{
-  font:18px arial;
+  font:30px arial;
 }

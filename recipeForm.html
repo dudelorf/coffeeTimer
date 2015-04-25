@@ -36,8 +36,13 @@
 		
 	</script>
 	<script>
+		//global variable to reference phase field template
 		var phaseFormTemplate;
-		$(document).ready(function(){
+		
+		$(document).ready(function()
+		//initialization of document
+		{
+			//adds volume options
 			var volOptionTemplate = Handlebars.compile($("#volOptionTemplate").html());
 			var outputStr = "";
 			var context = {};
@@ -68,7 +73,6 @@
 		function removePhase(phaseNumber)
 		//removes phase supplied as phaseNumber and re-indexes phase fields if necessary
 		{
-			alert(phaseNumber);
 			var totalPhases = document.getElementsByClassName("phaseField").length;
 			if(phaseNumber < totalPhases)
 			//re-indexing is required
@@ -102,8 +106,9 @@
 			$("#removep" + context.phaseNum).on("click", function(){removePhase(context.phaseNum);});
 		}
 		
-		function addNewPhase(){
+		function addNewPhase()
 		//adds a new phase field to form
+		{
 			var newPhaseNumber = document.getElementsByClassName("phaseField").length + 1;
 			var context = {phaseNum: newPhaseNumber,
 						   initPlaceholder: "New Phase"};
@@ -112,32 +117,47 @@
 	</script>
 </head>
 <body>
-	<form action="processRecipe.php" method="POST">
-		<table border="2px" id="formTable">
+	<div id="container">
+	<div id="backNav" onclick="window.location='index.php'">
+		<img src="images/backNavArrow.png" />
+		<label>Go Back</label>
+	</div>
+	<div id="formContainer">
+	<form action="addRecipe.php" method="POST">
+		<table id="formTable">
 		<tr>
-			<td>Method Name</td>
-			<td><input type="text" size="40" placeholder="My Chemex"></input></td>
+			<td class="fieldName">Method Name</td>
+			<td class="fieldData"><input type="text" size="25" placeholder="My Chemex"></input></td>
 		</tr>
 		<tr>
-			<td>Default Volume</td>
-			<td><select id="volSelect"></select> Oz</td>
+			<td class="fieldName">Default Volume</td>
+			<td class="fieldData"><select id="volSelect" name="volSelect"></select> Oz</td>
 		</tr>
 		<tr>
-			<td>Brew Ratio</td>
-			<td><input type="text" size="4" placeholder="15" ></input>
-			. <input type="text" size="3" placeholder="0" ></input>g coffee/mL water</td>
+			<td class="fieldName">Brew Ratio</td>
+			<td class="fieldData"><input type="text" size="3" placeholder="15" maxlength="2"
+				name="brewRatioTens"></input>
+			. <input type="text" size="2" placeholder="0" maxlength="1"
+				name="breRatioDecimal"></input>g coffee/mL water</td>
+		</tr>
+		<tr>
+			<td class="fieldName">Grind Size</td>
+			<td class="fieldData"><select id="grindSize" name="grindSize">
+				<option value="0">Fine</option>
+				<option value="1">Medium-Fine</option>
+				<option value="2">Medium</option>
+				<option value="3">Medium-Coarse</option>
+				<option value="4">Coarse</option>
+				</select></td>
 		</tr>
 		<tr><td colspan="2" style="text-align:center">Brew Phases</td></tr>
 		</table>
 	</form>
-	<div onclick="addNewPhase()">New Phase</div>
-	<div id="submitThatBioch" style="
-								width:200px;
-								height:100px;
-								color:white;
-								background-color:green;
-								text-align:center;
-								vertical-align:middle;
-								line-height:100px;">Save Recipe</div>
+	</div>
+	<footer id="controls">
+	<div class="controlButton" onclick="addNewPhase()">New Phase</div>
+	<div class="controlButton">Save Recipe</div>
+	</footer>
+	</div>
 </body>
 </html>

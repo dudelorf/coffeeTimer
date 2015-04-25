@@ -1,14 +1,72 @@
+body
+{
+	font-family: arial, sanserif;
+	color:white;
+}
 .removePhaseButton
 {
 	width:150px;
 	display:inline-block;
-	color:white;
-	background-color:green;
-	float:right;
+	background-color:#94B8B8;
 	text-align:center;
+	border-radius: 5px;
+
 }
-.phaseField
+.removePhaseButton:hover
 {
-	margin:0px;
-	padding:0px;
+	margin: -2px;
+	border: 2px solid white;
+}
+.controlButton
+{
+	display:inline-block;
+	width:190px;
+	height:50px;
+	color:white;
+	background-color:#94B8B8;
+	text-align:center;
+	line-height:50px;
+	border-radius: 5px;
+}
+.controlButton:hover
+{
+	margin: -2px;
+	border: 2px solid white;
+}
+#container{
+  border: 2px solid #94B8B8;
+  width: 400px;
+  height: 550px;
+  background-color: #E8BA8D;
+  box-shadow: 2px 2px;
+}
+#backNav
+{
+  background-color: #E6E6E6;
+  padding:5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height:45px;
+  
+}
+#backNav img
+{
+  width:40px;
+  height:40px;
+}
+#backNav label{
+  font: 20px arial;
+  position: relative;
+  top: -13px;
+  color:black;
+}
+#formContainer
+{
+	height: 440px;
+	overflow: auto;
+}
+#controls
+{
+	width:400px;
+	text-align:center;
 }
