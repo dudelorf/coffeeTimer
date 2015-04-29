@@ -47,7 +47,7 @@ li{
   left:-10px;
 }
 li:hover{
-  margin:-2px;
+  margin:-2px, -2px, 8px, -2px;
   border: 2px solid white;
 }
 
