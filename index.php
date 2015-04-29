@@ -25,7 +25,7 @@
 			exit;
 		}
 		
-		$query = "Select methodName from recipes";
+		$query = "Select methodname from savedrecipes";
 		
 		$result = mysqli_query($db,$query);
 		$recipes = mysqli_fetch_all($result , MYSQLI_NUM);
