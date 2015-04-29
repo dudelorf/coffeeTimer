@@ -43,11 +43,13 @@
 				exit;
 			}
 			
-			$query = "Select * from recipes where methodName='".$theMethod."'";
+			$query = "Select * from savedrecipes where methodName='".$theMethod."'";
 			
 			$result = $db->query($query);
 			$theRecipe = $result->fetch_assoc();
-			$theRecipe['phases'] = unserialize($theRecipe['phases']);
+			$theRecipe['phasememos'] = unserialize($theRecipe['phasememos']);
+			$theRecipe['phasetimes'] = unserialize($theRecipe['phasetimes']);
+			$theRecipe['phaseratios'] = unserialize($theRecipe['phaseratios']);
 			
 			$db->close();
 		?>
