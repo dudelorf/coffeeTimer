@@ -65,3 +65,14 @@
 		echo $query;
 	}
 ?>
+<! HTML>
+<head>
+<script>
+	function backToHome()
+	{
+		window.location = "index.php";
+	}
+</script>
+</head>
+<body onload="backToHome()"></body>
+</html>

@@ -98,7 +98,9 @@
 		function window_onload()
 		//page init
 		{
+			//creates timer object
 			timer = new Timer(<?php echo json_encode($theRecipe); ?>, document.getElementById("timer"));
+			//loads timer into window
 			loadRecipe();
 		}
 	</script>

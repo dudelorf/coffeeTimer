@@ -9,14 +9,40 @@
 {
   background-color: #E6E6E6;
   padding:5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
   height:45px;
 }
 #controls img
 {
   width:40px;
   height:40px;
+}
+
+#menuDiv label
+{
+	position:relative;
+	font:20px arial;
+	top:-10px;
+}
+#dropdownMenu
+{
+	display:none;
+	position:absolute;
+	z-index:4;
+	background-color: #E6E6E6;
+	border-bottom-right-radius:5px;
+}
+#menuOptions
+{
+	padding:0px 20px;
+}
+#menuOptions li
+{
+	font:15px arial;
+	margin:10px 0px;
+}
+#menuOptions li:hover
+{
+	color:white;
 }
 #addMethod
 {
@@ -35,19 +61,42 @@ h1
 ul{
   list-style: none;
 }
-li{
+.recipe{
   background-color:#94B8B8;
   display:block;
   width:200px;
   font:20px arial;
   margin-bottom:10px;
   padding:8px 8px 8px 25px;
+  border:2px solid black;
   border-radius: 5px;
   position:relative;
   left:-10px;
 }
-li:hover{
-  margin:-2px, -2px, 8px, -2px;
-  border: 2px solid white;
+.recipe:hover
+{
+	border:2px solid white;
 }
 
+.removeRecipe
+{
+	background-color:red;
+}
+#buttonContainer
+{
+	display:none;
+	text-align:center;
+}
+#completeDeleteButton
+{
+	font:20px arial;
+	display:inline-block;
+	background-color:#94B8B8;
+	padding:10px;
+	border-radius:5px;
+	border:2px solid black;
+}
+#completeDeleteButton:hover
+{
+	border:2px solid white;
+}
