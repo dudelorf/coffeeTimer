@@ -89,6 +89,7 @@ ul{
 }
 #completeDeleteButton
 {
+	display:none;
 	font:20px arial;
 	display:inline-block;
 	background-color:#94B8B8;
@@ -97,6 +98,20 @@ ul{
 	border:2px solid black;
 }
 #completeDeleteButton:hover
+{
+	border:2px solid white;
+}
+#completeEditButton
+{
+	display:none;
+	font:20px arial;
+	display:inline-block;
+	background-color:#94B8B8;
+	padding:10px;
+	border-radius:5px;
+	border:2px solid black;
+}
+#completeEditButton:hover
 {
 	border:2px solid white;
 }
