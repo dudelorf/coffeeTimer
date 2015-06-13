@@ -47,9 +47,9 @@
 			
 			$result = $db->query($query);
 			$theRecipe = $result->fetch_assoc();
-			$theRecipe['phasememos'] = unserialize($theRecipe['phasememos']);
-			$theRecipe['phasetimes'] = unserialize($theRecipe['phasetimes']);
-			$theRecipe['phaseratios'] = unserialize($theRecipe['phaseratios']);
+			$theRecipe['phaseMemos'] = unserialize($theRecipe['phaseMemos']);
+			$theRecipe['phaseTimes'] = unserialize($theRecipe['phaseTimes']);
+			$theRecipe['phaseRatios'] = unserialize($theRecipe['phaseRatios']);
 			
 			$db->close();
 		?>

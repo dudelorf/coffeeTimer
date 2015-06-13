@@ -77,15 +77,50 @@
 		function loadRecipe()
 		//returns object containing recipe information
 		{
-			var theRecipe = createDefaultRecipe(); 
+			var theRecipe = <?php 
+			
+			if (isset($_GET['toEdit']))
+			{
+				$theMethod = $_GET['toEdit'];
+		
+				@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
+			
+				if (mysqli_connect_errno())
+				{
+					echo "Could not connect to database. Try something else.";
+					exit;
+				}
+			
+				$query = "Select * from savedrecipes where methodName='".$theMethod."'";
+			
+				$result = $db->query($query);
+				$theRecipe = $result->fetch_assoc();
+				
+				//unserialize data
+				$theRecipe['phaseMemos'] = unserialize($theRecipe['phaseMemos']);
+				$theRecipe['phaseRatios'] = unserialize($theRecipe['phaseRatios']);
+				$theRecipe['phaseTimes'] = unserialize($theRecipe['phaseTimes']);
+								
+				echo json_encode($theRecipe);	
+			}
+			else
+				//signals script on page to create default recipe
+				echo "undefined"; 
+			?>;
+			
+			//no recipe selected to edit, loads default recipe
+			if (theRecipe == undefined){
+				theRecipe = createDefaultRecipe();
+			}
 			
 			return theRecipe;
+
 		}
 		
 		function createDefaultRecipe()
 		//creates and returns a default recipe object
 		{
-			var defaultRecipe = {}
+			var defaultRecipe = {};
 			
 			defaultRecipe['methodName'] = "New Recipe";
 			defaultRecipe['defaultVolume'] = 13;
@@ -95,26 +130,32 @@
 				"Bloom", "Steep", "Drawdown"
 				];
 			defaultRecipe['phaseRatios'] = [
-				5.0, 10.0, 0.0
-				]
+				5.0, 10.0, 0.0];
 			defaultRecipe['phaseTimes'] = [
-				30, 135, 30
-				]
+				30, 135, 30];
+			defaultRecipe['dilutionRatio'] = 0.0;
 	
 			return defaultRecipe;
 		}
-		
+		var theRecipe = {"methodName":"V60",
+		"defaultVolume":"12",
+		"brewRatio":"14.5",
+		"grindSize":"Medium-Fine",
+		"phaseMemos":["Bloom","Pour","Drawdown"],
+		"phaseRatios":[4,10.5,0],
+		"phaseTimes":[30,135,15],
+		"dilutionRatio":"0.0"};
 		
 		function populateForm(recipeObject)
 		//uses supplied recipe object to populate form
 		{
-			$("#methodname").val(recipeObject['methodName']);
+			$("#methodName").val(recipeObject['methodName']);
 			$("#volSelect > option").each(function() {
 				if ($(this).val() == recipeObject['defaultVolume']){
 					$(this).prop('selected', true);
 				}
 			});
-			$("#brewRatioTens").val(recipeObject['dilutionRatio']/1);
+			$("#brewRatioTens").val(Math.floor(recipeObject['dilutionRatio']));
 			$("#brewRatioDecimal").val((recipeObject['dilutionRatio'] * 10) % 10);
 			$("#grindSize > option").each(function() {
 				if ($(this).val() == recipeObject['grindSize'])
@@ -130,7 +171,7 @@
 				addPhase(context);
 				//populates phase fields
 				$("#memop" + p).val(recipeObject['phaseMemos'][p - 1 /*index into array*/]);
-				$("#ratioTensp" + p).val(recipeObject['phaseRatios'][p - 1] / 1);
+				$("#ratioTensp" + p).val(Math.floor(recipeObject['phaseRatios'][p - 1]));
 				$("#ratioDecimalp" + p).val((recipeObject['phaseRatios'][p - 1] * 10) % 10);
 				
 				var minutesStr = "#minutesp" + p + " > option";
@@ -149,6 +190,15 @@
 						$(this).prop('selected', true);
 				});
 			}
+
+			if (recipeObject['dilutionRatio'] > 0.0)
+			{
+				$("#dilutionCheck").prop('checked', true);
+				$("#dilutionField").show(0);
+				$("#dilutionRatio").val(Math.floor(recipeObject['dilutionRatio']));
+				$("#dilutionRatioDecimal").val((recipeObject['dilutionRatio'] * 10) % 10); 
+			}
+			
 		}
 		
 		
@@ -287,11 +337,11 @@
 		<table id="formTable">
 		<tr>
 			<td class="fieldName">Method Name</td>
-			<td class="fieldData"><input type="text" size="25" id="methodname" name="methodname"></input></td>
+			<td class="fieldData"><input type="text" size="25" id="methodName" name="methodName"></input></td>
 		</tr>
 		<tr>
 			<td class="fieldName">Default Volume</td>
-			<td class="fieldData"><select id="volSelect" name="defaultvolume"></select> Oz</td>
+			<td class="fieldData"><select id="volSelect" name="defaultVolume"></select> Oz</td>
 		</tr>
 		<tr>
 			<td class="fieldName">Brew Ratio</td>
@@ -322,9 +372,9 @@
 		<tr style="display:none" id="dilutionField">
 			<td class="fieldName">Dilution Ratio</td>
 			<td class="fieldData">
-				<input type="text" size="3" placeholder="5" maxlength="2"
+				<input type="text" size="3" placeholder="5" maxlength="2" id="dilutionRatio"
 					name="dilutionRatio"></input> .
-				<input type="text" size="2" placeholder="0" maxlength="1"
+				<input type="text" size="2" placeholder="0" maxlength="1" id="dilutionRatioDecimal"
 					name="dilutionRatioDecimal"></input>mL water/g Coffee</td>
 		</tr>
 		</table>

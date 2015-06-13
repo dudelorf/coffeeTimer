@@ -7,8 +7,8 @@
 		exit;
 	}
 
-	$methodname = $_POST['methodname'];
-	$defaultvolume = $_POST['defaultvolume'];
+	$methodname = $_POST['methodName'];
+	$defaultvolume = $_POST['defaultVolume'];
 	$brewratio = $_POST['brewRatioTens'] + ($_POST['brewRatioDecimal'] / 10);
 	$grindsize = $_POST['grindSize'];
 	
@@ -48,17 +48,13 @@
 		$dilutionratio = 0;
 	}
 	
-	$query = "INSERT INTO savedrecipes (methodname, defaultvolume, brewratio, grindsize,
-				phasememos, phaseratios, phasetimes, dilutionratio)
+	$query = "INSERT INTO savedrecipes (methodName, defaultVolume, brewRatio, grindSize,
+				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('$methodname', $defaultvolume, $brewratio, '$grindsize',
 				'$phasememos_safe', '$phaseratios_safe', '$phasetimes_safe', $dilutionratio);";
-		/*, defaultvolume, brewratio, 
-		grindsize, phasememos, phaseratios, phasetimes, dilutionratio*/
-		
-		/*, $defaultvolume, $brewratio, $grindsize,
-				 $phasememos_safe, $phaseratios_safe, $phasetimes_safe, $dilutionratio*/
 		
 	$result = $db->query($query);
+	
 	if(!$result)
 	{
 		echo "Extreme boner";
