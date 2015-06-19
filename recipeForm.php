@@ -79,6 +79,7 @@
 		{
 			var theRecipe = <?php 
 			
+			//checks to see if editing existing recipe
 			if (isset($_GET['toEdit']))
 			{
 				$theMethod = $_GET['toEdit'];
@@ -100,7 +101,8 @@
 				$theRecipe['phaseMemos'] = unserialize($theRecipe['phaseMemos']);
 				$theRecipe['phaseRatios'] = unserialize($theRecipe['phaseRatios']);
 				$theRecipe['phaseTimes'] = unserialize($theRecipe['phaseTimes']);
-								
+						
+				//pass recipe object to javascript
 				echo json_encode($theRecipe);	
 			}
 			else
@@ -111,6 +113,12 @@
 			//no recipe selected to edit, loads default recipe
 			if (theRecipe == undefined){
 				theRecipe = createDefaultRecipe();
+			}
+			else
+			//editing a selected recipe
+			{
+				//tells php to update existing recipe instead of saving new one
+				$("#editSignal").val(true);
 			}
 			
 			return theRecipe;
@@ -124,7 +132,7 @@
 			
 			defaultRecipe['methodName'] = "New Recipe";
 			defaultRecipe['defaultVolume'] = 13;
-			defaultRecipe['dilutionRatio'] = 15.0;
+			defaultRecipe['brewRatio'] = 15.0;
 			defaultRecipe['grindSize'] = "Coarse";
 			defaultRecipe['phaseMemos'] = [
 				"Bloom", "Steep", "Drawdown"
@@ -137,14 +145,6 @@
 	
 			return defaultRecipe;
 		}
-		var theRecipe = {"methodName":"V60",
-		"defaultVolume":"12",
-		"brewRatio":"14.5",
-		"grindSize":"Medium-Fine",
-		"phaseMemos":["Bloom","Pour","Drawdown"],
-		"phaseRatios":[4,10.5,0],
-		"phaseTimes":[30,135,15],
-		"dilutionRatio":"0.0"};
 		
 		function populateForm(recipeObject)
 		//uses supplied recipe object to populate form
@@ -155,8 +155,8 @@
 					$(this).prop('selected', true);
 				}
 			});
-			$("#brewRatioTens").val(Math.floor(recipeObject['dilutionRatio']));
-			$("#brewRatioDecimal").val((recipeObject['dilutionRatio'] * 10) % 10);
+			$("#brewRatioTens").val(Math.floor(recipeObject['brewRatio']));
+			$("#brewRatioDecimal").val((recipeObject['brewRatio'] * 10) % 10);
 			$("#grindSize > option").each(function() {
 				if ($(this).val() == recipeObject['grindSize'])
 					$(this).prop('selected', true);
@@ -200,71 +200,6 @@
 			}
 			
 		}
-		
-		
-		/*function loadDefaultForm()
-		{
-			//add initial phases
-			var initPhases = [
-					{phaseNum: 1,
-					 initPlaceholder: "Bloom"},
-					{phaseNum: 2,
-					 initPlaceholder: "Pour"},
-					{phaseNum: 3,
-					 initPlaceholder: "Drawdown"}
-				];
-			for (var p=0; p < initPhases.length; p++)
-			{
-				context = initPhases[p];
-				addPhase(context);
-			}
-			//adjusts default placeholder values
-			$("#ratioTensp1").attr("placeholder", 5);
-			$("#ratioTensp2").attr("placeholder", 10);
-			$("#ratioTensp3").attr("placeholder", 0);
-			document.getElementById("minutesp2").options[2].setAttribute("selected", "true");
-			document.getElementById("volSelect").options[6].setAttribute("selected", "true");
-
-		}
-		
-		function loadSavedRecipe()
-		//loads recipe from database and populates form fields
-		{
-		<?php
-			if (isset($_GET['toEdit']))
-			{
-			//run sql to get recipe data
-			@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
-			if (mysqli_connect_errno($db))
-			{
-				echo "There was an error connecting to the database";
-				exit;
-			}
-			$query = "SELECT * FROM savedRecipes WHERE methodname='".$_GET['toEdit']."'";
-			
-			$result = mysqli_query($db, $query);
-			$existingRecipe = mysqli_fetch_assoc($result);
-			}
-			
-			//populate javascript variables
-			//echo "var loadedMethodName = '".$existingRecipe['methodname']."';";
-			//echo "var loadedDefaultVolume = '".$existingRecipe['defaultvolume']."';";
-			
-			
-		?>
-			//populate form elements
-			$('#methodname').val(loadedMethodName);
-			var volOptions = document.getElementById("volSelect").options;
-			for (entry in volOptions)
-			{
-				if ($(entry).val() == loadedDefaultVolume)
-				{
-					$(entry).attr("selected", "true");
-					break;
-				}
-			}
-			
-		}*/
 		
 		function removePhase(phaseNumber)
 		//removes phase supplied as phaseNumber and re-indexes phase fields if necessary
@@ -378,6 +313,7 @@
 					name="dilutionRatioDecimal"></input>mL water/g Coffee</td>
 		</tr>
 		</table>
+		<input type="hidden" id="editSignal" name="editSignal"></input>
 	</form>
 	</div>
 	<footer id="controls">

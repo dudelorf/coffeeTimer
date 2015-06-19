@@ -14,7 +14,7 @@
 	</div>
 	<div id="dropdownMenu">
 		<ul id="menuOptions">
-			<li id="newOption"><a href="recipeForm.php">New Recipe</a></li>
+			<li id="newOption">New Recipe</a></li>
 			<li id="editOption" onclick="activateEdit()">Edit Recipe</li>
 			<li id="deleteOption" onclick="activateDelete()">Delete Recipe</li>
 		</ul>
@@ -56,6 +56,7 @@
 	
 	function takeSelection(methodName)
 	{
+
 		if(deleteSavedRecipes)
 		//deletes recipe from database and from display
 		{
@@ -73,13 +74,17 @@
 		else if (editSavedRecipe)
 		//navigate to edit recipe form
 		{
-			window.location = "recipeForm.php?toEdit="+methodName;
+			$("html").fadeOut(function(){
+				window.location = "recipeForm.php?toEdit="+methodName;
+			});
 		}
 		else
 		//navigate to timer screen for selected recipe
 		{
-		document.getElementById("brewSelect").value = methodName;
-		document.forms["theForm"].submit();
+			$("html").fadeOut(function(){
+				document.getElementById("brewSelect").value = methodName;
+				document.forms["theForm"].submit();
+			});
 		}
 	}
 	
@@ -162,13 +167,17 @@
 			var rName = recipeArr[r];
 			var elem = document.createElement("li");
 			(function(rName){
-				$(elem).text(rName).click(function(){takeSelection(rName);})
-				.addClass("recipe").attr("id", (spaceToUnderscore(rName)));
+				$(elem).text(rName).click(function(){
+					takeSelection(rName);
+				}).addClass("recipe").attr("id", (spaceToUnderscore(rName)));
 			}(rName));
 			document.getElementById("methods").appendChild(elem);
 		}
 		
 		$("#menuDiv").click(function(){$("#dropdownMenu").slideToggle();});
+		$("#newOption").click(function(){
+			$("html").fadeOut(function(){window.location='recipeForm.php';});
+		});
 		
 	}
 </script>
@@ -176,3 +185,4 @@
 		<input type="hidden" id="brewSelect" name="brewSelect" />
 	</form>
 </body>
+</html>

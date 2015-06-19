@@ -8,6 +8,7 @@
 	}
 
 	$methodname = $_POST['methodName'];
+	
 	$defaultvolume = $_POST['defaultVolume'];
 	$brewratio = $_POST['brewRatioTens'] + ($_POST['brewRatioDecimal'] / 10);
 	$grindsize = $_POST['grindSize'];
@@ -39,7 +40,7 @@
 	$phasetimes_safe = mysqli_real_escape_string($db, serialize($phasetimes));
 	
 	
-	if (!empty($_POST['dilutionCheck']))
+	if (!empty($_POST['dilutionCheck']) && ($_POST['dilutionRatio'] + ($_POST['dilutionRatioDecimal'] / 10)) > 0)
 	{
 		$dilutionratio = $_POST['dilutionRatio'] + ($_POST['dilutionRatioDecimal'] / 10);
 	}
@@ -48,11 +49,27 @@
 		$dilutionratio = 0;
 	}
 	
+	if ($_POST['editSignal'] == true)
+	//create update query
+	{
+	$query = "UPDATE savedrecipes SET
+				defaultVolume=$defaultvolume,
+				brewRatio=$brewratio,
+				grindSize='$grindsize',
+				phaseMemos='$phasememos_safe',
+				phaseRatios='$phaseratios_safe',
+				phaseTimes='$phasetimes_safe',
+				dilutionRatio=$dilutionratio
+			  WHERE methodName='$methodname';";
+	}
+	else
+	//create query to save new recipe
+	{
 	$query = "INSERT INTO savedrecipes (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('$methodname', $defaultvolume, $brewratio, '$grindsize',
 				'$phasememos_safe', '$phaseratios_safe', '$phasetimes_safe', $dilutionratio);";
-		
+	}
 	$result = $db->query($query);
 	
 	if(!$result)

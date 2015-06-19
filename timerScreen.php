@@ -2,8 +2,9 @@
 <head>
 	<title>Coffee Timer</title>
 	<link rel="stylesheet" type="text/css" href="styles/timer.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
-<body onload="window_onload()">
+<body style="display:none" onload="window_onload()">
 	<div id="container">
 	<div id="backNav" onclick="window.location='index.php'">
 		<img src="images/backNavArrow.png" />
@@ -13,9 +14,9 @@
 	<div id="volumeContainer">
 		<h2>Volume</h2>
 		<div id="volumeNav">
-		<img src="images/upArrow.png" onclick="changeVolume('+')"/>
+		<img src="images/upArrow.png" id="increaseVolume"/>
 		<p id="volumeDisplay">?</p><label> oz</label>
-		<img src="images/downArrow.png" onclick="changeVolume('-')"/>
+		<img src="images/downArrow.png" id="decreaseVolume"/>
 		</div>
 	</div>
 	<div id="gramsCoffeeDisplay">
@@ -27,6 +28,10 @@
 		<p id="gramsWater"></p>
 	</div>
 	<div id="timer">
+		<p id="clock">69:00</p>
+		<p id="memo">Saggy balls</p>
+		<input type="button" value="start" id="startBtn" />
+		<input type="button" value="Stop / Pause" id="stopPauseBtn" />
 	</div>
 	</div>
 	<script type="text/javascript" src="lib/timer.js"></script>
@@ -54,54 +59,31 @@
 			$db->close();
 		?>
 		var timer;
-		
-	//utility functions to calculate recipe details
-		function getGramsCoffee(vol, brewRatio)
-		//returns grams of coffee when supplied volume in oz and brew ratio in gramsCoffee/ozWater
-		{
-			var mlVol = vol * 29.5;
-			var gCoffee = mlVol / (brewRatio - 1.5/*retained water*/);
-			return Math.round(gCoffee);
-		}
-		
-		function getGramsWater(vol, ratio)
-		//returns total grams water for recip when supplied desired brew volume and brew ratio
-		{
-			var gCoffee = getGramsCoffee(vol, ratio);
-			var mlVol = vol * 29.5 + gCoffee * 1.5/*ml/g retained water*/;
-			mlVol = Math.round(mlVol * 0.1);
-			return mlVol * 10;
-		}
-		
-		function changeVolume(opr)
-		{
-			if (opr == '+') timer.increaseVolume();
-			else timer.decreaseVolume();
-			document.getElementById("volumeDisplay").innerHTML = timer.getVolume();
-			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(timer.getVolume(), timer.getBrewRatio());
-			document.getElementById("gramsWater").innerHTML = getGramsWater(timer.getVolume(), timer.getBrewRatio());
-		}
 	
-	//timer functions
-	
-	//general functions	
-		function loadRecipe()
-		//makes recipe data avilable to app
-		{
-			document.getElementById("brewName").innerHTML = timer.getMethodName();
-			document.getElementById("volumeDisplay").innerHTML = timer.getVolume();
-			document.getElementById("gramsCoffee").innerHTML = getGramsCoffee(timer.getVolume(), timer.getBrewRatio());
-			document.getElementById("gramsWater").innerHTML = getGramsWater(timer.getVolume(), timer.getBrewRatio());
-			timer.showTime(timer.getTotalTime());
-			
-		}
 		function window_onload()
 		//page init
 		{
 			//creates timer object
-			timer = new Timer(<?php echo json_encode($theRecipe); ?>, document.getElementById("timer"));
-			//loads timer into window
-			loadRecipe();
+			timer = new Timer(
+			//recipe object
+			<?php echo json_encode($theRecipe); ?>,
+			//assign inputs 
+			document.getElementById("startBtn"),
+			document.getElementById("stopPauseBtn"),
+			document.getElementById("increaseVolume"),
+			document.getElementById("decreaseVolume"),
+			//assign outputs: 
+			document.getElementById("brewName"),
+			document.getElementById("volumeDisplay"),
+			document.getElementById("clock"),
+			document.getElementById("gramsCoffee"),
+			document.getElementById("gramsWater"),
+			document.getElementById("memo")
+			);
+			
+			//activates display
+			timer.activateDisplay();
+			$("body").fadeIn(100);
 		}
 	</script>
 </body>
