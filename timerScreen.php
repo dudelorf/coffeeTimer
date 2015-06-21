@@ -6,7 +6,7 @@
 </head>
 <body style="display:none" onload="window_onload()">
 	<div id="container">
-	<div id="backNav" onclick="window.location='index.php'">
+	<div id="backNav">
 		<img src="images/backNavArrow.png" />
 		<label>Go Back</label>
 	</div>
@@ -83,8 +83,14 @@
 			
 			//activates display
 			timer.activateDisplay();
+			
+			$("#backNav").click(function(){
+				$("html").fadeOut(function(){window.location='index.php';});
+			});
+				
 			$("body").fadeIn(100);
 		}
 	</script>
+	<audio id="beepElem" src="lib/beep.wav" autostart="false" width="0" height="0" enablejavascript="true"/>
 </body>
 </html>

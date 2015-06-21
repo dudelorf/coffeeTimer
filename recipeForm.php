@@ -72,6 +72,13 @@
 			$("#dilutionCheck").change(function(){$("#dilutionField").toggle();})
 			
 			populateForm(loadRecipe());
+			
+			$("#backNav").click(function(){
+				$("html").fadeOut(function(){window.location='index.php';});
+			});
+			
+
+			$("body").fadeIn(100);
 		});
 		
 		function loadRecipe()
@@ -256,14 +263,17 @@
 		
 		function saveRecipe()
 		{
-			document.forms['recipeForm'].submit();
+			$("html").fadeOut(function(){
+				document.forms['recipeForm'].submit();
+			});
+			
 		}
 		
 	</script>
 </head>
 <body>
 	<div id="container">
-	<div id="backNav" onclick="window.location='index.php'">
+	<div id="backNav">
 		<img src="images/backNavArrow.png" />
 		<label>Go Back</label>
 	</div>

@@ -178,7 +178,7 @@
 		$("#newOption").click(function(){
 			$("html").fadeOut(function(){window.location='recipeForm.php';});
 		});
-		
+		$("body").fadeIn(100);
 	}
 </script>
 	<form id="theForm" action="timerScreen.php" method="post">
