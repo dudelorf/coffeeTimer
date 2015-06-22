@@ -174,7 +174,10 @@
 			document.getElementById("methods").appendChild(elem);
 		}
 		
-		$("#menuDiv").click(function(){$("#dropdownMenu").slideToggle();});
+		$("#menuButton").click(function(){$("#dropdownMenu").slideToggle();});
+		$("body").click(function(){
+
+		});
 		$("#newOption").click(function(){
 			$("html").fadeOut(function(){window.location='recipeForm.php';});
 		});
