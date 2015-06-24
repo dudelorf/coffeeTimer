@@ -174,9 +174,16 @@
 			document.getElementById("methods").appendChild(elem);
 		}
 		
-		$("#menuButton").click(function(){$("#dropdownMenu").slideToggle();});
-		$("body").click(function(){
-
+		//assigns event handlers
+		$("#menuDiv").click(function(){$("#dropdownMenu").slideToggle();});
+		$("html").mouseup(function(e){
+			if( ($("#dropdownMenu").css("display") != "none") 			//menu is visible
+			 && (!$("#dropdownMenu").is(e.target))   //menu was not clicked
+			 && ($("#menuDiv").has(e.target).length === 0)   
+		     && ($("#dropdownMenu").has(e.target).length === 0) )  //child of menu not clicked
+			 {
+				 $("#dropdownMenu").slideUp();
+			 }		
 		});
 		$("#newOption").click(function(){
 			$("html").fadeOut(function(){window.location='recipeForm.php';});
