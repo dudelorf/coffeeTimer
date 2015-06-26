@@ -30,7 +30,7 @@
 <script type="text/javascript">
 	//load available recipes from database
 	<?php
-		@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
+		@ $db = new mysqli("localhost", "eric", "password", "coffeeRecipes");
 		
 		if (mysqli_connect_errno())
 		{

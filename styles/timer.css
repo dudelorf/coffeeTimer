@@ -53,6 +53,10 @@ h1{
   width:40px;
   height:40px;
 }
+
+#volumeNav img.disabled{
+  background-color: red;
+}
 #volumeNav img:hover{
   background-color:gray;
 }

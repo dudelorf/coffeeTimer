@@ -1,7 +1,7 @@
 <?php
 	$methodToDelete = $_POST['selectedRecipe'];
 	
-	@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
+	@ $db = new mysqli("localhost", "eric", "password", "coffeeRecipes");
 	
 	$query = "DELETE FROM savedrecipes WHERE methodname='$methodToDelete'";
 	

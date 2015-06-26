@@ -31,7 +31,7 @@
 		<p id="clock">69:00</p>
 		<p id="memo">Saggy balls</p>
 		<input type="button" value="start" id="startBtn" />
-		<input type="button" value="Stop / Pause" id="stopPauseBtn" />
+		<input type="button" value="Stop / Reset" id="stopPauseBtn" />
 	</div>
 	</div>
 	<script type="text/javascript" src="lib/timer.js"></script>
@@ -40,7 +40,7 @@
 		<?php
 			$theMethod = $_POST["brewSelect"];
 		
-			@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
+			@ $db = new mysqli("localhost", "eric", "password", "coffeeRecipes");
 			
 			if (mysqli_connect_errno())
 			{

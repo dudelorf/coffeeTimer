@@ -61,7 +61,7 @@
 			//adds volume options to form
 			var outputStr = "";
 			var context = {};
-			for (var vol = 6; vol < 32; vol++)
+			for (var vol = 6; vol <= 36; vol++)
 			{
 				context = {volume: vol};
 				outputStr += volOptionTemplate(context);
