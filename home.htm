@@ -1,0 +1,46 @@
+<!DOCTYPE hmtl>
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="styles/login.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="controls">
+			<p>Coffee Brewing</p>
+		</div>
+		
+		<h2>Login to brew some coffee</h2>
+		
+		<form id="loginForm" action="loginScript.php" method="post">
+			<input id="usernameField" type="text" size="15" /><label for="usernameField">User name</label>
+			<input id="passwordField" type="text" size="15" /><label for="passwordField">Password</label>
+		</form>
+		
+		<div id="login" class="pageButton">
+			<p>Login</p>
+		</div>
+		<div id="newAccount" class="pageButton">
+			<p>Register Account</p>
+		</div>
+		<div id="defaultLogin" class="pageButton">
+			<p>Default Login</p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#login").click(function(){
+				$.post("loginScript.php",
+				{
+					userName: $("#usernameField").val(),
+					userPassword: $("#passwordField").val()
+				},
+				function(data, status){
+					if (data == "1") window.location = "index.php";
+				});
+			});
+		});
+	
+	</script>
+</body>
+</html>

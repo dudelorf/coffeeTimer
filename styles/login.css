@@ -1,0 +1,29 @@
+#container{
+  border: 2px solid #94B8B8;
+  width: 400px;
+  height: 550px;
+  background-color: #E8BA8D;
+  box-shadow:2px 2px;
+}
+#controls
+{
+  background-color: #E6E6E6;
+  padding:5px;
+  height:45px;
+}
+.pageButton{
+  background-color:#94B8B8;
+  display:block;
+  width:200px;
+  font:20px arial;
+  margin-bottom:10px;
+  padding:8px 8px 8px 25px;
+  border:2px solid black;
+  border-radius: 5px;
+  position:relative;
+  left:-10px;
+}
+.pageButton:hover
+{
+	border:2px solid white;
+}

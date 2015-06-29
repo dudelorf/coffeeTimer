@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <head>
 	<title>Select Method</title>
@@ -30,7 +33,9 @@
 <script type="text/javascript">
 	//load available recipes from database
 	<?php
-		@ $db = new mysqli("localhost", "eric", "password", "coffeeRecipes");
+		$userName = $_SESSION['userName'];
+		$userPassword = $_SESSION['userPassword'];
+		@ $db = new mysqli("localhost", $userName, $userPassword, "coffeeRecipes");
 		
 		if (mysqli_connect_errno())
 		{
