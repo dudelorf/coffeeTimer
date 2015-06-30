@@ -33,13 +33,46 @@
 				$.post("loginScript.php",
 				{
 					userName: $("#usernameField").val(),
+					userPassword: $("#passwordField").val()	
+				},
+				function(data, status){
+					processLogin(data);
+				});
+			});
+			
+			$("#newAccount").click(function(){
+				$.post("newAccount.php",
+				{
+					userName: $("#usernameField").val(),
 					userPassword: $("#passwordField").val()
 				},
 				function(data, status){
-					if (data == "1") window.location = "index.php";
+					alert(data);
 				});
 			});
+			
 		});
+		
+		function processLogin(key)
+		{
+			//uses code provided by php script to process login attempt
+			switch (key)
+			{
+				case '1':
+					//success
+					window.location = 'index.php';
+					break;
+				case '2':
+					alert("bad password yo");
+					break;
+				case '3':
+					alert("bad user name");
+					break;
+				default:
+					alert("There was an error connecting, try again");
+					break;
+			}
+		}
 	
 	</script>
 </body>
