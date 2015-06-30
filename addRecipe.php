@@ -1,5 +1,7 @@
 <?php
-	@ $db = new mysqli("localhost", "eric", "password", "coffeeRecipes");
+	session_start();
+	$tableName = "recipesid".$_SESSION['userId'];
+	@ $db = new mysqli("localhost", "coffeetimer", "potato", "coffeetimer");
 			
 	if (mysqli_connect_errno())
 	{
@@ -52,7 +54,7 @@
 	if ($_POST['editSignal'] == true)
 	//create update query
 	{
-	$query = "UPDATE savedrecipes SET
+	$query = "UPDATE $tableName SET
 				defaultVolume=$defaultvolume,
 				brewRatio=$brewratio,
 				grindSize='$grindsize',
@@ -65,7 +67,7 @@
 	else
 	//create query to save new recipe
 	{
-	$query = "INSERT INTO savedrecipes (methodName, defaultVolume, brewRatio, grindSize,
+	$query = "INSERT INTO $tableName (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('$methodname', $defaultvolume, $brewratio, '$grindsize',
 				'$phasememos_safe', '$phaseratios_safe', '$phasetimes_safe', $dilutionratio);";

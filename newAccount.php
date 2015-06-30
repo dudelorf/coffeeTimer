@@ -44,15 +44,15 @@
 			dilutionRatio decimal(3,1)
 		)";
 		
-		addAeropress($db);
-		addFrenchPress($db);
-		addV60($db);
-		
 		if(!$db->query($newTableQuery))
 		{
 			echo "issue creating the new table";
 			exit;
 		}
+		
+		addAeropress($db, $tableName);
+		addFrenchPress($db, $tableName);
+		addV60($db, $tableName);
 		
 		$_SESSION['userId'] = $newUserId;
 		
@@ -63,6 +63,47 @@
 		echo "There was a problem";
 	}
 	
-	function
-
+	function addAeropress($connection, $table)
+	{
+		$query = "INSERT INTO $table (methodName, defaultVolume, brewRatio, grindSize,
+				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
+		VALUES ('Aeropress',
+				 8,
+				 14.5,
+				 'Fine',
+				 'a:3:{i:0;s:5:\"Bloom\";i:1;s:5:\"Steep\";i:2;s:5:\"Press\";}',
+				 'a:3:{i:0;d:3.5;i:1;d:9.5;i:2;i:0;}',
+				 'a:3:{i:0;i:30;i:1;i:120;i:2;i:15;}',
+				 2.0)";
+		$connection->query($query);
+	}
+	
+	function addFrenchPress($connection, $table)
+	{
+		$query = "INSERT INTO $table (methodName, defaultVolume, brewRatio, grindSize,
+				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
+		VALUES ('French Press',
+				 16,
+				 15.0,
+				 'Coarse',
+				 'a:3:{i:0;s:5:\"Bloom\";i:1;s:5:\"Steep\";i:2;s:5:\"Press\";}',
+				 'a:3:{i:0;d:3.5;i:1;d:9.5;i:2;i:0;}',
+				 'a:3:{i:0;i:30;i:1;i:120;i:2;i:15;}',
+				 0.0)";
+		$connection->query($query);
+	}
+	function addV60($connection, $table)
+	{
+		$query = "INSERT INTO $table (methodName, defaultVolume, brewRatio, grindSize,
+				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
+		VALUES ('V60',
+				 12,
+				 14.0,
+				 'Medium-Fine',
+				 'a:3:{i:0;s:5:\"Bloom\";i:1;s:5:\"Steep\";i:2;s:5:\"Press\";}',
+				 'a:3:{i:0;i:5;i:1;i:10;i:2;i:0;}',
+				 'a:3:{i:0;i:30;i:1;i:225;i:2;i:15;}',
+				 0.0)";
+		$connection->query($query);
+	}
 ?>

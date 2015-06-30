@@ -33,9 +33,8 @@
 <script type="text/javascript">
 	//load available recipes from database
 	<?php
-		$userName = $_SESSION['userName'];
-		$userPassword = $_SESSION['userPassword'];
-		@ $db = new mysqli("localhost", $userName, $userPassword, "coffeeRecipes");
+		$tableName = "recipesid".$_SESSION['userId'];
+		@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
 		
 		if (mysqli_connect_errno())
 		{
@@ -43,7 +42,7 @@
 			exit;
 		}
 		
-		$query = "Select methodname from savedrecipes";
+		$query = "Select methodName from $tableName";
 		
 		$result = mysqli_query($db, $query);
 		

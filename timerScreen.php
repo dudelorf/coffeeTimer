@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <head>
 	<title>Coffee Timer</title>
@@ -40,7 +43,7 @@
 		<?php
 			$theMethod = $_POST["brewSelect"];
 		
-			@ $db = new mysqli("localhost", "eric", "password", "coffeeRecipes");
+			@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
 			
 			if (mysqli_connect_errno())
 			{
@@ -48,7 +51,9 @@
 				exit;
 			}
 			
-			$query = "Select * from savedrecipes where methodName='".$theMethod."'";
+			$tableName = "recipesid".$_SESSION['userId'];
+			
+			$query = "Select * from $tableName where methodName='".$theMethod."'";
 			
 			$result = $db->query($query);
 			$theRecipe = $result->fetch_assoc();
