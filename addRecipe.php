@@ -1,14 +1,15 @@
 <?php
 	session_start();
 	$tableName = "recipesid".$_SESSION['userId'];
-	@ $db = new mysqli("localhost", "coffeetimer", "potato", "coffeetimer");
+	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
 			
 	if (mysqli_connect_errno())
 	{
 		echo "Could not connect to database. Try something else.";
 		exit;
 	}
-
+	
+	//extract values from form as local variables
 	$methodname = $_POST['methodName'];
 	
 	$defaultvolume = $_POST['defaultVolume'];
@@ -19,6 +20,7 @@
 	$phaseratios = [];
 	$phasetimes = [];
 	
+	//populates arrays
 	$phaseIndex = 1;
 	$phaseMemoKey = "memop1";
 	while(array_key_exists($phaseMemoKey, $_POST))
@@ -41,7 +43,7 @@
 	$phaseratios_safe = mysqli_real_escape_string($db, serialize($phaseratios));
 	$phasetimes_safe = mysqli_real_escape_string($db, serialize($phasetimes));
 	
-	
+	//sets up dilution column
 	if (!empty($_POST['dilutionCheck']) && ($_POST['dilutionRatio'] + ($_POST['dilutionRatioDecimal'] / 10)) > 0)
 	{
 		$dilutionratio = $_POST['dilutionRatio'] + ($_POST['dilutionRatioDecimal'] / 10);
@@ -62,7 +64,7 @@
 				phaseRatios='$phaseratios_safe',
 				phaseTimes='$phasetimes_safe',
 				dilutionRatio=$dilutionratio
-			  WHERE methodName='$methodname';";
+			  WHERE methodName='$methodname'";
 	}
 	else
 	//create query to save new recipe
@@ -70,8 +72,10 @@
 	$query = "INSERT INTO $tableName (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('$methodname', $defaultvolume, $brewratio, '$grindsize',
-				'$phasememos_safe', '$phaseratios_safe', '$phasetimes_safe', $dilutionratio);";
+				'$phasememos_safe', '$phaseratios_safe', '$phasetimes_safe', $dilutionratio)";
 	}
+	//runs query
+
 	$result = $db->query($query);
 	
 	if(!$result)
@@ -80,7 +84,7 @@
 		echo $query;
 	}
 ?>
-<! HTML>
+<<!DOCTYPE html>
 <head>
 <script>
 	function backToHome()

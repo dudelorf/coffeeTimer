@@ -20,6 +20,7 @@
 			<li id="newOption">New Recipe</a></li>
 			<li id="editOption" onclick="activateEdit()">Edit Recipe</li>
 			<li id="deleteOption" onclick="activateDelete()">Delete Recipe</li>
+			<li id="exitOption" onclick="logout()">Log out</li>
 		</ul>
 	</div>
 	<h1>How are you brewing today?</h1>
@@ -159,6 +160,13 @@
 			result += currentChar;
 		}
 		return result;
+	}
+	
+	function logout()
+	{
+		$("html").fadeOut(function(){
+			window.location = "logout.php";
+		});
 	}
 	
 	function window_onload()

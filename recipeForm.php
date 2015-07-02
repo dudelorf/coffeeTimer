@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <head>
 	<title>New Recipe</title>
@@ -90,8 +93,9 @@
 			if (isset($_GET['toEdit']))
 			{
 				$theMethod = $_GET['toEdit'];
+				$tableName = "recipesid".$_SESSION['userId'];
 		
-				@ $db = new mysqli("localhost", "eric", "Dud3Lorf", "coffeeRecipes");
+				@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
 			
 				if (mysqli_connect_errno())
 				{
@@ -99,7 +103,7 @@
 					exit;
 				}
 			
-				$query = "Select * from savedrecipes where methodName='".$theMethod."'";
+				$query = "Select * from $tableName where methodName='".$theMethod."'";
 			
 				$result = $db->query($query);
 				$theRecipe = $result->fetch_assoc();
