@@ -65,9 +65,9 @@
 		if(deleteSavedRecipes)
 		//deletes recipe from database and from display
 		{
-			$.ajax({  
+			$.ajax({
 				type: 'POST',  
-				url: 'deleteRecipe.php', 
+				url: 'php_scripts/deleteRecipe.php',
 				data: { selectedRecipe: methodName },
 				success: function(data) {
 					var sel = "#" + spaceToUnderscore(data);
@@ -165,7 +165,7 @@
 	function logout()
 	{
 		$("html").fadeOut(function(){
-			window.location = "logout.php";
+			window.location = "php_scripts/logout.php";
 		});
 	}
 	

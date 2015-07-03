@@ -12,7 +12,7 @@
 		
 		<h2>Login to brew some coffee</h2>
 		
-		<form id="loginForm" action="loginScript.php" method="post">
+		<form id="loginForm" action="php_scripts/loginScript.php" method="post">
 			<input id="usernameField" type="text" size="15" /><label for="usernameField">User name</label>
 			<input id="passwordField" type="text" size="15" /><label for="passwordField">Password</label>
 		</form>
@@ -30,7 +30,7 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#login").click(function(){
-				$.post("loginScript.php",
+				$.post("php_scripts/loginScript.php",
 				{
 					userName: $("#usernameField").val(),
 					userPassword: $("#passwordField").val()	
@@ -41,12 +41,12 @@
 			});
 			
 			$("#newAccount").click(function(){
-				$.post("newAccount.php",
+				$.post("php_scripts/newAccount.php",
 				{
 					userName: $("#usernameField").val(),
 					userPassword: $("#passwordField").val()
 				},
-				function(data, status){
+				function(){
 					window.location = 'index.php';
 				});
 			});
