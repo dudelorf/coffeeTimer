@@ -13,13 +13,13 @@
         <tbody class="phaseField" id="phase{{phaseNum}}">
         <tr class="phaseMemo">
             <td>Phase Memo</td>
-            <td><input type="text" id="memop{{phaseNum}}" name="memop{{phaseNum}}"/></td>
+            <td><input type="text" id="memop{{phaseNum}}" name="memop{{phaseNum}}" class="memoText"/></td>
         </tr>
         <tr>
             <td>Phase Volume</td>
-            <td><input type="text" size="3" maxlength="2"
-                       name="ratioTensp{{phaseNum}}" id="ratioTensp{{phaseNum}}"/>
-                . <input type="text" size="2" maxlength="1"
+            <td><input type="text" size="3" maxlength="2" class="ratioTens" value="0"
+                       name="ratioTensp{{phaseNum}}" id="ratioTensp{{phaseNum}}" />
+                . <input type="text" size="2" maxlength="1" class="ratioDecimal" value="0"
                          name="ratioDecimalp{{phaseNum}}" id="ratioDecimalp{{phaseNum}}"/>mL water/g Coffee</td>
         </tr>
         <tr>
@@ -242,16 +242,63 @@
                 }
             }
 		//check phase memos
-            //todo
+            var memos = document.getElementsByClassName("memoText");
+
+            for (var i = 0; i < memos.length; i++)
+            {
+               if($(memos[i]).val() == "")
+                {
+                    alert("Memo number " + (i + 1) + " is empty.");
+                    return false;
+                }
+            }
 		//make sure phase ratios don't exceed total ratio
-            //todo
+            var totalTensObj = $("#brewRatioTens");
+            var totalDecimalObj = $("#brewRatioDecimal");
+
+            var brewRatio = 0.0;
+                brewRatio += Number(totalTensObj.removeClass("bad").val());
+                brewRatio += (Number(totalDecimalObj.removeClass("bad").val()) / 10);
+
+            var phaseTens = document.getElementsByClassName("ratioTens");
+            var phaseDecimals = document.getElementsByClassName('ratioDecimal');
+
+            var recipeRatio = 0.0;
+            for (var p = 0; p < phaseTens.length; p++)
+            {
+                recipeRatio += Number($(phaseTens[p]).val());
+                recipeRatio += (Number($(phaseDecimals[p]).val()) / 10);
+
+                if (recipeRatio > brewRatio)
+                //phase ratios exceed total ratio
+                {
+                    $(phaseTens[p]).addClass("bad");
+                    $(phaseDecimals[p]).addClass("bad");
+                    alert("Phase ratios exceed brew ratio.");
+                    return false;
+                }
+
+                $(phaseTens[p]).removeClass("bad");
+                $(phaseDecimals[p]).removeClass("bad");
+            }
+
+            if (brewRatio > recipeRatio)
+            //total ratio exceeds phase ratios
+            {
+                totalTensObj.addClass("bad");
+                totalDecimalObj.addClass("bad");
+                alert("Brew ratio exceeds phase ratios.");
+                return false
+            }
+
+            return true;
 		}
 
 		function checkDatabase()
         //checks method name to see if it already exists in saved recipes
         //if it does, alerts user by adding class
         {
-            $.get("checkName.php", {method: $("#methodName").val()}, function (isValid) {
+            $.get("php_scripts/checkName.php", {method: $("#methodName").val()}, function (isValid) {
 
                     if(isValid == "false")
                     {
@@ -263,6 +310,7 @@
                     }
                 }
             );
+
         }
 
 		function removePhase(phaseNumber)
@@ -320,12 +368,12 @@
 
 		function saveRecipe()
 		{
-			validateForm();
-            /*if(validateForm()){
+            if(validateForm())
+            {
 				$("html").fadeOut(function(){
-					document.forms['recipeForm'].submit();
+					document.forms['php_scripts/recipeForm'].submit();
 				});
-			};*/
+			}
 		}
 
 	</script>
