@@ -13,7 +13,7 @@
         <tbody class="phaseField" id="phase{{phaseNum}}">
         <tr class="phaseMemo">
             <td>Phase Memo</td>
-            <td><input type="text" id="memop{{phaseNum}}" name="memop{{phaseNum}}" class="memoText"/></td>
+            <td><input type="text" maxlength="25" id="memop{{phaseNum}}" name="memop{{phaseNum}}" class="memoText"/></td>
         </tr>
         <tr>
             <td>Phase Volume</td>
@@ -371,7 +371,8 @@
             if(validateForm())
             {
 				$("html").fadeOut(function(){
-					document.forms['php_scripts/recipeForm'].submit();
+					document.forms['recipeForm'].submit();
+                    window.location = 'index.php';
 				});
 			}
 		}
@@ -389,7 +390,7 @@
             <table id="formTable">
             <tr>
                 <td class="fieldName"><label for="methodName">Method name</label></td>
-                <td class="fieldData"><input type="text" size="25" id="methodName" name="methodName"/></td>
+                <td class="fieldData"><input type="text" size="25" maxlength="25" id="methodName" name="methodName"/></td>
             </tr>
             <tr>
                 <td class="fieldName">Default Volume</td>

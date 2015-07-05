@@ -11,7 +11,7 @@
 		exit;
 	}
 	
-	$theMethod = $_GET['method'];
+	$theMethod = mysqli_real_escape_string($_GET['method']);
 
 	$query = "Select * from $tableName where methodName='$theMethod'";
 

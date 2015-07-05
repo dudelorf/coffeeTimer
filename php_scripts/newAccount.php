@@ -1,4 +1,9 @@
 <?php
+    /*Script to create new user acount
+    code is passed back to javascript to indicate success of creation
+        1 = successful creation
+        2 = invalid username
+    */
 	session_start();
 	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
 			
@@ -7,9 +12,10 @@
 		echo "Could not connect to database. Try something else.";
 		exit;
 	}
-	
-	$userName = $_POST['userName'];
-	$userPassword = $_POST['userPassword'];
+
+    //sanitize input
+	$userName = mysqli_real_escape_string($db, $_POST['userName']);
+	$userPassword = mysqli_real_escape_string($db, $_POST['userPassword']);
 	
 	//checks to see if username exists
 	$query = "SELECT * FROM users WHERE userName='$userName'";
@@ -17,7 +23,7 @@
 	if ($result->num_rows > 0)
 	{
 		//user name exists
-		echo "name already exists";
+		echo 2;
 		exit;
 	}
 	
@@ -55,12 +61,13 @@
 		addV60($db, $tableName);
 		
 		$_SESSION['userId'] = $newUserId;
-		
-		echo "mission success! User Id is: ".$_SESSION['userId'];
+        echo '1';
+        $db->close();
 	}
 	else
 	{
 		echo "There was a problem";
+        exit;
 	}
 	
 	function addAeropress($connection, $table)

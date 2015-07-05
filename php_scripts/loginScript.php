@@ -7,12 +7,12 @@
 		3 = bad user name
 	*/
 	session_start();
-	$success = 0;
-	
-	$userName = $_POST['userName'];
-	$userPassword = $_POST['userPassword'];
 	
 	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
+
+    //sanitize input
+    $userName = mysqli_real_escape_string($db, $_POST['userName']);
+    $userPassword = mysqli_real_escape_string($db, $_POST['userPassword']);
 			
 		if (mysqli_connect_errno())
 		{
