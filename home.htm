@@ -59,8 +59,14 @@
                         });
             });
 
+            var registrationFlag = false;
+
             $("#newAccount").click(function () {
                 beginRegistration();
+            });
+
+            $("#cancel").click(function(){
+                cancelRegistration();
             });
         });
 
@@ -72,10 +78,19 @@
                 $("#verifyPasswordField").animate({opacity:"1"});
             });
 
-            //fade in verification field
-            //show cancel
             $("#newAccount").click(function() {
                 registerNewAccount();
+            });
+        }
+
+        function cancelRegistration()
+        {
+            $("#cancel").fadeOut(function(){
+                $("#login").fadeIn();
+                $("#verifyPasswordField").animate({opacity:"0"});
+            });
+            $("#newAccount").click(function() {
+                beginRegistration();
             });
         }
 		function registerNewAccount()
