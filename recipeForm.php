@@ -299,7 +299,6 @@
         //if it does, alerts user by adding class
         {
             $.get("php_scripts/checkName.php", {method: $("#methodName").val()}, function (isValid) {
-
                     if(isValid == "false")
                     {
                         $("#methodName").addClass("bad");
@@ -372,7 +371,7 @@
             {
 				$("html").fadeOut(function(){
 					document.forms['recipeForm'].submit();
-                    window.location = 'index.php';
+
 				});
 			}
 		}

@@ -13,60 +13,101 @@
 		<h2>Login to brew some coffee</h2>
 		
 		<form id="loginForm" action="php_scripts/loginScript.php" method="post">
-			<input id="usernameField" type="text" size="15" maxlength="20" /><label for="usernameField">User name</label>
-			<input id="passwordField" type="password" size="15" maxlength="20"/><label for="passwordField">Password</label>
+            <table>
+                <tbody>
+                <tr><td>
+                    <input id="usernameField" type="text" size="15" maxlength="20" />
+                    <label for="usernameField">User name</label>
+                </td></tr>
+                <tr><td>
+                    <input id="passwordField" type="password" size="15" maxlength="20"/>
+                    <label for="passwordField">Password</label>
+                </td></tr>
+                <tr id="verifyPasswordField" style="opacity:0"><td>
+                    <input id="passwordVerify" type="password" size="15" maxlength="20" />
+                    <label for="passwordVerify" >Verify password</label>
+                </td></tr>
+                </tbody>
+            </table>
 		</form>
-		
-		<div id="login" class="pageButton">
-			<p>Login</p>
-		</div>
-		<div id="newAccount" class="pageButton">
-			<p>Register Account</p>
-		</div>
-		<div id="defaultLogin" class="pageButton">
-			<p>Default Login</p>
-		</div>
+		<table>
+        <tr><td>
+            <div id="login" class="pageButton">
+                <p>Login</p>
+            </div>
+            <div id="cancel" class="pageButton" style="display:none">
+                <p>Cancel</p>
+            </div>
+        </td>
+        <td>
+            <div id="newAccount" class="pageButton">
+                <p>Register Account</p>
+            </div>
+        </td></tr>
+        </table>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#login").click(function(){
-				$.post("php_scripts/loginScript.php",
-				{
-					userName: $("#usernameField").val(),
-					userPassword: $("#passwordField").val()	
-				},
-				function(data){
+		$(document).ready(function() {
+            $("#login").click(function () {
+                $.post("php_scripts/loginScript.php",
+                        {
+                            userName: $("#usernameField").val(),
+                            userPassword: $("#passwordField").val()
+                        },
+                        function (data) {
+                            processLogin(data);
+                        });
+            });
 
-					processLogin(data);
-				});
-			});
-			
-			$("#newAccount").click(function(){
-				$.post("php_scripts/newAccount.php",
-				{
-					userName: $("#usernameField").val(),
-					userPassword: $("#passwordField").val()
-				},
-				function(data){
-					switch (data)
+            $("#newAccount").click(function () {
+                beginRegistration();
+            });
+        });
+
+        function beginRegistration()
+        {
+            //hide login
+            $("#login").fadeOut(function(){
+                $("#cancel").fadeIn();
+                $("#verifyPasswordField").animate({opacity:"1"});
+            });
+
+            //fade in verification field
+            //show cancel
+            $("#newAccount").click(function() {
+                registerNewAccount();
+            });
+        }
+		function registerNewAccount()
+        {
+            //do form validation here
+            //check name is filled
+            //check passwords match
+
+            $.post("php_scripts/newAccount.php",
                     {
-                        case '1':
-                            //successful creation
-                            window.location = 'index.php';
-                            break;
-                        case '2':
-                            //name already exists
-                            alert("Username is not available.");
-                            break;
-                        default:
-                            alert("something went wrong.");
-                            break;
-                    }
-				});
-			});
-			
-		});
-		
+                        userName: $("#usernameField").val(),
+                        userPassword: $("#passwordField").val()
+                    },
+                    function(data){
+                        switch (data)
+                        {
+                            case '1':
+                                //successful creation
+                                window.location = 'index.php';
+                                break;
+                            case '2':
+                                //name already exists
+                                alert("Username is not available.");
+                                break;
+                            default:
+                                alert("something went wrong.");
+                                break;
+                        }
+                    });
+
+        }
+
 		function processLogin(key)
 		{
 			//uses code provided by php script to process login attempt

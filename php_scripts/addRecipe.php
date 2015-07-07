@@ -10,7 +10,7 @@
 	}
 	
 	//extract values from form as local variables
-	$methodname = $_POST['methodName'];
+	$methodname = mysqli_real_escape_string($db, $_POST['methodName']);
 	
 	$defaultvolume = $_POST['defaultVolume'];
 	$brewratio = $_POST['brewRatioTens'] + ($_POST['brewRatioDecimal'] / 10);
