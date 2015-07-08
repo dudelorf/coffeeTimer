@@ -59,67 +59,75 @@
                         });
             });
 
-            var registrationFlag = false;
+            var registering = false;
 
             $("#newAccount").click(function () {
-                beginRegistration();
+                if (!registering) {
+                    beginRegistration();
+                    registering = true;
+                }
+                else{
+                    registerNewAccount();
+                }
             });
 
             $("#cancel").click(function(){
-                cancelRegistration();
+                //returns display to normal
+                $("#cancel").fadeOut(function(){
+                    $("#login").fadeIn();
+                    $("#verifyPasswordField").animate({opacity:"0"});
+                });
+                registering = false;
             });
         });
 
         function beginRegistration()
         {
-            //hide login
+            //sets up display for registration
             $("#login").fadeOut(function(){
                 $("#cancel").fadeIn();
                 $("#verifyPasswordField").animate({opacity:"1"});
             });
 
-            $("#newAccount").click(function() {
-                registerNewAccount();
-            });
         }
 
-        function cancelRegistration()
-        {
-            $("#cancel").fadeOut(function(){
-                $("#login").fadeIn();
-                $("#verifyPasswordField").animate({opacity:"0"});
-            });
-            $("#newAccount").click(function() {
-                beginRegistration();
-            });
-        }
 		function registerNewAccount()
         {
             //do form validation here
             //check name is filled
-            //check passwords match
+            if ($("#usernameField").val() == ""){
+                alert("A user name is required");
+                return;
+            }
 
-            $.post("php_scripts/newAccount.php",
-                    {
-                        userName: $("#usernameField").val(),
-                        userPassword: $("#passwordField").val()
-                    },
-                    function(data){
-                        switch (data)
+            //check passwords match
+            else if ($("#passwordField").val() !=  $("#passwordVerify").val()){
+                alert("Passwords do not match");
+                return;
+            }
+            //register new account
+            else {
+                $.post("php_scripts/newAccount.php",
                         {
-                            case '1':
-                                //successful creation
-                                window.location = 'index.php';
-                                break;
-                            case '2':
-                                //name already exists
-                                alert("Username is not available.");
-                                break;
-                            default:
-                                alert("something went wrong.");
-                                break;
-                        }
-                    });
+                            userName: $("#usernameField").val(),
+                            userPassword: $("#passwordField").val()
+                        },
+                        function (data) {
+                            switch (data) {
+                                case '1':
+                                    //successful creation
+                                    window.location = 'index.php';
+                                    break;
+                                case '2':
+                                    //name already exists
+                                    alert("Username is not available.");
+                                    break;
+                                default:
+                                    alert("something went wrong.");
+                                    break;
+                            }
+                        });
+            }
 
         }
 
