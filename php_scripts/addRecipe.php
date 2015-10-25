@@ -1,7 +1,10 @@
 <?php
 	session_start();
 	$tableName = "recipesid".$_SESSION['userId'];
-	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
+	
+	require('../php_scripts/serverlogin.php');
+	
+	@ $db = new mysqli($hostname, $userName, $password, $database);
 			
 	if (mysqli_connect_errno())
 	{
@@ -56,23 +59,23 @@
 	if ($_POST['editSignal'] == true)
 	//create update query
 	{
-	$query = "UPDATE $tableName SET
-				defaultVolume=$defaultvolume,
-				brewRatio=$brewratio,
-				grindSize='$grindsize',
-				phaseMemos='$phasememos_safe',
-				phaseRatios='$phaseratios_safe',
-				phaseTimes='$phasetimes_safe',
-				dilutionRatio=$dilutionratio
-			  WHERE methodName='$methodname'";
+	$query = 'UPDATE '.$tableName.' SET
+				defaultVolume='.$defaultvolume.',
+				brewRatio='.$brewratio.',
+				grindSize="'.$grindsize.'",
+				phaseMemos="'.$phasememos_safe.'",
+				phaseRatios="'.$phaseratios_safe.'",
+				phaseTimes="'.$phasetimes_safe.'",
+				dilutionRatio='.$dilutionratio.'
+			  WHERE methodName="'.$methodname.'"';
 	}
 	else
 	//create query to save new recipe
 	{
-	$query = "INSERT INTO $tableName (methodName, defaultVolume, brewRatio, grindSize,
+	$query = 'INSERT INTO '.$tableName.' (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
-		VALUES ('$methodname', $defaultvolume, $brewratio, '$grindsize',
-				'$phasememos_safe', '$phaseratios_safe', '$phasetimes_safe', $dilutionratio)";
+		VALUES ("'.$methodname.'", '.$defaultvolume.', '.$brewratio.', "'.$grindsize.'",
+				"'.$phasememos_safe.'", "'.$phaseratios_safe.'", "'.$phasetimes_safe.'", '.$dilutionratio.')';
 	}
 	//runs query
 
@@ -89,7 +92,7 @@
 <script>
 	function backToHome()
 	{
-		window.location = "../index.php";
+		window.location = "../recipes.php";
 	}
 </script>
 </head>

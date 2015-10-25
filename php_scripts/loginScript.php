@@ -1,4 +1,6 @@
 <?php
+	// php_scripts/loginScript.php
+
 	/*
 	Script attempts to log in user and store userId as a session variable.
 	Code is passed back to javascript to indicate result of attempt:
@@ -6,13 +8,16 @@
 		2 = bad password
 		3 = bad user name
 	*/
+	
 	session_start();
 	
-	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
+	require('../php_scripts/serverlogin.php');
+	
+	@ $db = new mysqli($hostname, $userName, $password, $database);
 
     //sanitize input
-    $userName = mysqli_real_escape_string($db, $_POST['userName']);
-    $userPassword = mysqli_real_escape_string($db, $_POST['userPassword']);
+    $userName = mysqli_real_escape_string($db, $_GET['userName']);
+    $userPassword = mysqli_real_escape_string($db, $_GET['userPassword']);
 			
 		if (mysqli_connect_errno())
 		{
@@ -20,7 +25,7 @@
 			exit;
 		}
 			
-		$query = "SELECT userId FROM users WHERE userName='$userName' AND userPassword = '$userPassword'";
+		$query = 'SELECT userId FROM users WHERE userName="'.$userName.'" AND userPassword = "'.$userPassword.'"';
 			
 		$result = $db->query($query);
 
@@ -35,7 +40,7 @@
 		{	
 			//bad login attempt
 			//test query to diagnose issue
-			$query = "SELECT * FROM users WHERE userName='$userName'";
+			$query = 'SELECT * FROM users WHERE userName="'.$userName.'"';
 			
 			$result = $db->query($query);
 			

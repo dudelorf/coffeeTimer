@@ -4,46 +4,64 @@
 <!DOCTYPE html>
 <head>
 	<title>Coffee Timer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link rel="stylesheet" type="text/css" href="styles/timer.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body style="display:none" onload="window_onload()">
-	<div id="container">
-	<div id="backNav">
-		<img src="images/backNavArrow.png" />
-		<label>Go Back</label>
-	</div>
-	<h1 id="brewName">Brew Name</h1>	
-	<div id="volumeContainer">
-		<h2>Volume</h2>
-		<div id="volumeNav">
-		<img src="images/upArrow.png" id="increaseVolume"/>
-		<p id="volumeDisplay">?</p><label> oz</label>
-		<img src="images/downArrow.png" id="decreaseVolume"/>
-		</div>
-	</div>
-	<div id="gramsCoffeeDisplay">
-		<h2>Grams Coffee</h2>
-		<p id="gramsCoffee"></p>
-	</div>
-	<div id="gramsWaterDisplay">
-		<h2>Grams Water</h2>
-		<p id="gramsWater"></p>
-	</div>
-	<div id="timer">
-		<p id="clock">69:00</p>
+	<div id="container" class="container">
+		<nav>
+			<div id="backNav">
+				<span class="glyphicon glyphicon-backward"></span>
+				<p>Go Back</p>
+			</div>
+		</nav>
+		<h1 id="brewName">Brew Name</h1>
+		<section class="row" id="mainDisplay">
+			<div class="col-xs-4">
+				<input class="cstBtn" type="button" value="Start" id="startBtn" /></br>
+				<input class="cstBtn" type="button" value="Stop" id="stopPauseBtn" />
+			</div>
+			<div class="col-xs-8">
+				<span id="clock">69:00</span>
+			</div>
+		</section>
 		<p id="memo">Saggy balls</p>
-		<input type="button" value="start" id="startBtn" />
-		<input type="button" value="Stop / Reset" id="stopPauseBtn" />
+		<section id="volumeContainer">
+			<h3>Volume</h3>
+			<div id="volumeNav">
+				<div class="cstBtn" type="button" id="increaseVolume">
+					<span class="glyphicon glyphicon-chevron-up"></span>
+				</div>
+				<div id="ctr">
+					<i id="volumeDisplay">?</i><label for="volumeDisplay">oz</label>
+				</div>
+				<div class="cstBtn" type="button" id="decreaseVolume">
+					<span class="glyphicon glyphicon-chevron-down"></span>
+				</div>
+			</div>
+		</section>
+		<section class="row">
+			<div id="gramsCoffeeDisplay" class="col-xs-6 brewSpecs">
+				<h4>Grams Coffee</h4>
+				<p id="gramsCoffee"></p>
+			</div>
+			<div id="gramsWaterDisplay" class="col-xs-6 brewSpecs">
+				<h4>Grams Water</h4>
+				<p id="gramsWater"></p>
+			</div>
+		</section>
 	</div>
-	</div>
-	<script type="text/javascript" src="lib/timer.js"></script>
+	<script type="text/javascript" src="./js/timer.js"></script>
 	<script type="text/javascript">
 		//global variables
 		<?php
-			$theMethod = $_POST["brewSelect"];
-		
-			@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
+			$theMethod = $_GET["brewSelect"];
+			
+			require('./php_scripts/serverlogin.php');
+			
+			@ $db = new mysqli($hostname, $userName, $password, $database);
 			
 			if (mysqli_connect_errno())
 			{
@@ -90,7 +108,7 @@
 			timer.activateDisplay();
 			
 			$("#backNav").click(function(){
-				$("html").fadeOut(function(){window.location='index.php';});
+				$("html").fadeOut(function(){window.location='../recipes.html';});
 			});
 				
 			$("body").fadeIn(100);

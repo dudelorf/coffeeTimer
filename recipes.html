@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<head>
+	<title>Select Method</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="styles/recipes.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<nav id="nav">
+			<div id="controls">
+				<span class="glyphicon glyphicon-menu-hamburger"></span>
+				<label>Menu</label>
+			</div>
+			<div id="dropdownMenu">
+				<ul id="menuOptions">
+					<li id="newOption">New Recipe</a></li>
+					<li id="editOption" onclick="activateEdit()">Edit Recipe</li>
+					<li id="deleteOption" onclick="activateDelete()">Delete Recipe</li>
+					<li id="exitOption" onclick="logout()">Log out</li>
+				</ul>
+			</div>
+		</nav>
+		<h1>Brewing Methods</h1>
+		<div id="buttonContainer">
+			<div id="completeDeleteButton" class="cstBtn" onclick="finishDelete()">Finished Deleting</div>
+			<div id="completeEditButton" class="cstBtn" onclick="finishEdit()">Cancel Edit</div>
+		</div>
+		<ul id="methods">
+		</ul>
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/recipes.js"></script>
+</body>
+</html>

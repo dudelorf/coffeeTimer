@@ -5,8 +5,11 @@
         2 = invalid username
     */
 	session_start();
-	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
-			
+	
+	require('../php_scripts/serverlogin.php');
+	
+	@ $db = new mysqli($hostname, $userName, $password, $database);
+	
 	if (mysqli_connect_errno())
 	{
 		echo "Could not connect to database. Try something else.";
@@ -18,7 +21,7 @@
 	$userPassword = mysqli_real_escape_string($db, $_POST['userPassword']);
 	
 	//checks to see if username exists
-	$query = "SELECT * FROM users WHERE userName='$userName'";
+	$query = 'SELECT * FROM users WHERE userName="'.$userName.'"';
 	$result = $db->query($query);
 	if ($result->num_rows > 0)
 	{
@@ -28,18 +31,18 @@
 	}
 	
 	//adds username to database
-	$query = "INSERT INTO users (userName, userPassword) VALUES ('$userName', '$userPassword')";
+	$query = 'INSERT INTO users (userName, userPassword) VALUES ("'.$userName.'", "'.$userPassword.'")';
 	
 	if($db->query($query))
 	{
-		$query = "SELECT userId FROM users WHERE userName='$userName'";
+		$query = 'SELECT userId FROM users WHERE userName="'.$userName.'"';
 		$result = $db->query($query);
 		
 		//run script to initialize basic recipe library
 		$newUserId = $result->fetch_assoc()['userId'];
 		$tableName = "recipesid".$newUserId;
 		
-		$newTableQuery = "CREATE TABLE $tableName (
+		$newTableQuery = 'CREATE TABLE '.$tableName.' (
 			methodName char(30),
 			defaultVolume tinyint(2),
 			brewRatio decimal(3,1),
@@ -48,7 +51,7 @@
 			phaseRatios varchar(200),
 			phaseTimes varchar(200),
 			dilutionRatio decimal(3,1)
-		)";
+		)';
 		
 		if(!$db->query($newTableQuery))
 		{
@@ -66,51 +69,83 @@
 	}
 	else
 	{
-		echo "There was a problem";
+		echo "There was a problem creating user";
         exit;
 	}
 	
+	//adds default aeropress recipe
 	function addAeropress($connection, $table)
 	{
-		$query = "INSERT INTO $table (methodName, defaultVolume, brewRatio, grindSize,
+		$phaseMemos = serialize(["Bloom", "Steep", "Press"]);
+		$phaseRatios = serialize([2.0, 12.5, 0]);
+		$phaseTimes = serialize([30, 120, 15]);
+		
+		$query = "INSERT INTO ".$table." (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('Aeropress',
 				 8,
 				 14.5,
 				 'Fine',
-				 'a:3:{i:0;s:5:\"Bloom\";i:1;s:5:\"Steep\";i:2;s:5:\"Press\";}',
-				 'a:3:{i:0;d:2.0;i:1;d:12.5;i:2;i:0;}',
-				 'a:3:{i:0;i:30;i:1;i:120;i:2;i:15;}',
-				 2.0)";
-		$connection->query($query);
+				 '".$phaseMemos."',
+				 '".$phaseRatios."',
+				 '".$phaseTimes."', 
+				 0.0)";
+
+		if(!$connection->query($query))
+		{
+			echo "probelem with aeropress";
+			exit;
+		}
 	}
 	
+	//adds default french press recipe
 	function addFrenchPress($connection, $table)
 	{
-		$query = "INSERT INTO $table (methodName, defaultVolume, brewRatio, grindSize,
+		
+		$phaseMemos = serialize(["Bloom", "Steep", "Press"]);
+		$phaseRatios = serialize([3.5, 11.5, 0]);
+		$phaseTimes = serialize([30, 120, 15]);
+		
+		$query = "INSERT INTO ".$table." (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('French Press',
 				 16,
 				 15.0,
 				 'Coarse',
-				 'a:3:{i:0;s:5:\"Bloom\";i:1;s:5:\"Steep\";i:2;s:5:\"Press\";}',
-				 'a:3:{i:0;d:3.5;i:1;d:11.5;i:2;i:0;}',
-				 'a:3:{i:0;i:30;i:1;i:120;i:2;i:15;}',
+				 '".$phaseMemos."',
+				 '".$phaseRatios."',
+				 '".$phaseTimes."', 
 				 0.0)";
-		$connection->query($query);
+				 
+		if(!$connection->query($query))
+		{
+			echo "probelem with french press";
+			exit;
+		}
 	}
+	
+	//adds default V60 recipe
 	function addV60($connection, $table)
 	{
-		$query = "INSERT INTO $table (methodName, defaultVolume, brewRatio, grindSize,
+		$phaseMemos = serialize(["Bloom", "Steep", "Press"]);
+		$phaseRatios = serialize([1.5, 12.5, 0]);
+		$phaseTimes = serialize([30, 225, 15]);
+		
+		$query = "INSERT INTO ".$table." (methodName, defaultVolume, brewRatio, grindSize,
 				phaseMemos, phaseRatios, phaseTimes, dilutionRatio)
 		VALUES ('V60',
 				 12,
 				 14.0,
-				 'Medium-Fine',
-				 'a:3:{i:0;s:5:\"Bloom\";i:1;s:5:\"Steep\";i:2;s:5:\"Press\";}',
-				 'a:3:{i:0;d:1.5;i:1;d:12.5;i:2;i:0;}',
-				 'a:3:{i:0;i:30;i:1;i:225;i:2;i:15;}',
+				 'Medium',
+				 '".$phaseMemos."',
+				 '".$phaseRatios."',
+				 '".$phaseTimes."', 
 				 0.0)";
-		$connection->query($query);
+
+		if(!$connection->query($query))
+		{
+			echo "probelem with v60";
+			exit;
+		}
 	}
 ?>

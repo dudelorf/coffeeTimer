@@ -1,111 +1,117 @@
-#container{
-  border: 2px solid #94B8B8;
-  width: 400px;
-  height: 550px;
-  background-color: #E8BA8D;
-  box-shadow:2px 2px;
+body{
+	background-color:#9B6538 !important;
 }
-#backNav
-{
-  background-color: #E6E6E6;
-  padding:5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  height:45px;
-}
-#backNav img
-{
-  width:40px;
-  height:40px;
-}
-#backNav label{
-  font: 20px arial;
-  position: relative;
-  top: -13px;
+.container{
+	text-align:center;
+	color:#F5D9C2;
+	font-family:cursive
 }
 h1{
-  font: 40px arial;
-  letter-spacing: 4px;
-  color:white;
-  text-align:center;
-  margin-bottom:0px;
+	border-bottom:2px solid #6A370C;
+	padding-bottom:10px;
+	text-shadow: 2px 2px #421E00;
 }
-#volumeContainer h2{
-  font:30px arial;
-  text-indent: 20px;
-  color:white;
-  display:inline-block;
+nav{
+	width:100%;
+	height:60px;
+	border:2px solid;
+	background-color:#421E00;
+	border-top:0px;
+	border-radius:0px 0px 10px 10px;
 }
-#volumeNav{
-  display:inline-block;
-  position:relative;
-  left:20px;
-  top:10px;
-  height:75px;
-  
+#backNav{
+	float:left;
+	font-size:2em;
+	margin:8px;
 }
-#volumeNav img{
-  border:2px solid white;
-  border-radius:50%;
-  display:inline-block;
-  margin:10px 20px -5px;
-  background-color: #94B8B8;
-  width:40px;
-  height:40px;
+#backNav span{
+	display:inline-block;
+
+}
+#backNav p{
+	display:inline-block;
+}
+#mainDisplay{
+	margin:15px 0px;
+	padding-bottom:20px;
+	border-bottom:2px solid #6A370C;
 }
 
-#volumeNav img.disabled{
-  background-color: red;
+.cstBtn {
+    padding: 10px;
+    background-color: #421E00;
+	border: 2px solid #421E00;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
-#volumeNav img:hover{
-  background-color:gray;
+ 
+.cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
+    outline: 0 none;
 }
-#volumeNav p{
-  display:inline;
-  font:30px arial;
-  position:relative;
-  top: -5px;
-  display:inline-block;
-  width:35px;
-  text-align:center;
-  font-weight: bolder;
-  color:white;
-  text-shadow: 2px 2px black
+ 
+.cstBtn:hover{
+    background: #F5D9C2;
+    color: #421E00;
 }
-#volumeNav label{
-  font: 18px arial;
-  position:relative;
-  top: -10px;
-  color:white;
-}
-#gramsCoffeeDisplay, #gramsWaterDisplay{
-  text-weight:none;
-  display:inline-block;
-  width: 49%;
-  font:18px arial;
-  text-align:center;
-  color: white;
-}
-#gramsCoffeeDisplay h2, #gramsWaterDisplay h2{
-  margin:10px 0px 10px;
-}
-#gramsCoffeeDisplay p, #gramsWaterDisplay p{
-  font-size: 35px;
-  text-shadow: 2px 2px black;
-  margin:0px;
-}
-#timer{
-  text-align:center;
-  margin-top:30px;
-  color:white;
+ 
+.cstBtn:active, .cstBtn.active {
+    background: #6A370C;
+    box-shadow: none;
 }
 #clock{
-  font-size:40px;
-  font-family:impact, arial, sanserif;
-  letter-spacing: 5px;
-  margin:0px;
-  text-shadow: 2px 2px black;
+	line-height:90px;
+	font-size:4em;
+	letter-spacing:5px;
+	font-family:impact;
+	text-shadow:2px 2px black;
+}
+input{
+	width:85px;
+	margin-bottom:5px !important;
+	font-size:1.0em !important;
 }
 #memo{
-  font:30px arial;
+	font-size:2.3em;
+	padding-bottom:15px;
+	border-bottom: 2px solid #6A370C;
+	text-shadow: 2px 2px #421E00;
+}
+#volumeContainer{
+	font-size:2.5em;
+}
+#volumeContainer label{
+	margin-left:10px;
+}
+#volumeContainer .cstBtn{
+	width:60px;
+	height:65px;
+	display:inline-block;
+	margin:0px 10px;
+}
+#volumeContainer h3{
+	letter-spacing:3px;
+	font-size:.9em;
+}
+#ctr{
+	display:inline-block;
+	width:100px;
+}
+#ctr i{
+	font-style:normal;
+	text-shadow: 2px 2px #421E00;
+	font-size:1.2em;
+}
+.disabled{
+	background-color:red !important;
+}
+.brewSpecs{
+
+}
+.brewSpecs h4{
+	font-size:2em;
+}
+.brewSpecs p{
+	font-size:2.5em;
+	background-color:#6A370C;
 }

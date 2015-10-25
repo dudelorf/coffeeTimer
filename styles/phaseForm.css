@@ -1,76 +1,90 @@
-body
-{
-	font-family: arial, sanserif;
-	color:white;
+body{
+	background-color:#9B6538 !important;
 }
-.removePhaseButton
-{
-	width:150px;
-	display:inline-block;
-	background-color:#94B8B8;
+.container{
 	text-align:center;
-	border-radius: 5px;
+	color:#F5D9C2;
+	font-family:cursive
+}
+
+nav{
+	width:100%;
+	height:60px;
+	border:2px solid;
+	background-color:#421E00;
+	border-top:0px;
+	border-radius:0px 0px 10px 10px;
+	margin-bottom:5px;
+}
+#backNav{
+	text-align:left;
+	font-size:2em;
+	margin:0px 8px;
+	padding-top:8px;
+}
+#backNav span{
+	display:inline-block;
 
 }
-.removePhaseButton:hover
-{
-	margin: -2px;
-	border: 2px solid white;
-}
-.controlButton
-{
+#backNav p{
 	display:inline-block;
-	width:190px;
-	height:50px;
-	color:white;
-	background-color:#94B8B8;
+}
+section{
+	overflow:hidden;
+}
+section .fieldName{
+	float:left;
+}
+section .fieldData{
+	float:right;
+}
+.cstBtn {
+	display:inline-block;
+    padding: 10px;
+    background-color: #421E00;
+	border: 2px solid #421E00;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+ 
+.cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
+    outline: 0 none;
+}
+ 
+.cstBtn:hover{
+    background: #F5D9C2;
+    color: #421E00;
+}
+ 
+.cstBtn:active, .cstBtn.active {
+    background: #6A370C;
+    box-shadow: none;
+}
+input, select{
+	background-color:#F5D9C2;
+	color:#421E00 !important;
 	text-align:center;
-	line-height:50px;
-	border-radius: 5px;
-	margin-top: 3px;
+	border:2px solid #6A370C
+	
 }
-.controlButton:hover
-{
-	margin: -2px;
-	border: 2px solid white;
+input:focus, select:focus{
+	outline:none;
 }
-#container{
-  border: 2px solid #94B8B8;
-  width: 400px;
-  height: 550px;
-  background-color: #E8BA8D;
-  box-shadow: 2px 2px;
+#gSize{
+	border-bottom:2px solid #6A370C;
+	margin-bottom:5px;
 }
-#backNav
-{
-  background-color: #E6E6E6;
-  padding:5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  height:45px;
-  
+h2{
+	margin:0px 0px 10px !important;
+	text-shadow:2px 2px #421E00
 }
-#backNav img
-{
-  width:40px;
-  height:40px;
+.phaseField{
+	margin-bottom:10px;
+	padding-bottom:10px;
+	border-bottom:2px solid #6A370C;
 }
-#backNav label{
-  font: 20px arial;
-  position: relative;
-  top: -13px;
-  color:black;
-}
-#formContainer
-{
-	height: 440px;
-	overflow: auto;
-}
-#controls
-{
-	width:400px;
-	text-align:center;
-}
+
 .bad
 {
     background-color: #FF4D4D;

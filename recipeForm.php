@@ -2,50 +2,55 @@
 	session_start();
 ?>
 <!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <head>
 	<title>New Recipe</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link rel="stylesheet" type="text/css" href="styles/phaseForm.css" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script src="lib/handlebars-v3.0.1.js"></script>
 	<script id="volOptionTemplate" type="text/x-handlebars-template">
-		<option value={{volume}}> {{volume}} </option></script>
-	<script id="phaseFormTemplate" type="text/x-handlebars-template">
-        <tbody class="phaseField" id="phase{{phaseNum}}">
-        <tr class="phaseMemo">
-            <td>Phase Memo</td>
-            <td><input type="text" maxlength="25" id="memop{{phaseNum}}" name="memop{{phaseNum}}" class="memoText"/></td>
-        </tr>
-        <tr>
-            <td>Phase Volume</td>
-            <td><input type="text" size="3" maxlength="2" class="ratioTens" value="0"
-                       name="ratioTensp{{phaseNum}}" id="ratioTensp{{phaseNum}}" />
-                . <input type="text" size="2" maxlength="1" class="ratioDecimal" value="0"
-                         name="ratioDecimalp{{phaseNum}}" id="ratioDecimalp{{phaseNum}}"/>mL water/g Coffee</td>
-        </tr>
-        <tr>
-            <td>Phase Time</td>
-            <td>
-                <select name="minutesp{{phaseNum}}" id="minutesp{{phaseNum}}">
-                    <option value="0"> 0 </option>
-                    <option value="1"> 1 </option>
-                    <option value="2"> 2 </option>
-                    <option value="3"> 3 </option>
-                    <option value="4"> 4 </option>
-                    <option value="5"> 5 </option>
-                </select> :
-                <select name="secondsp{{phaseNum}}" id="secondsp{{phaseNum}}">
-                    <option value="0"> 00 </option>
-                    <option value="15"> 15 </option>
-                    <option value="30" selected="true"> 30 </option>
-                    <option value="45"> 45 </option>
-                </select>
-                <div class="removePhaseButton" id="removep{{phaseNum}}"> Remove phase </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align:center">-------------</td>
-        </tr>
-        </tbody>
+		<option value={{volume}}> {{volume}} </option>
+	</script>
+	<script type="text/x-handlebars-template" id="phaseFormTemplate">
+        <div class="phaseField" id="phase{{phaseNum}}">
+			<section class="pMemo">
+				<p class="fieldName">Phase Memo</p>
+				<input class="fieldData" type="text" maxlength="25" id="memop{{phaseNum}}" name="memop{{phaseNum}}"/>
+			</section>
+			<section class="pVolume">
+				<p class="fieldName">Phase Volume</p>
+				<div class="fieldData">
+					<input type="text" size="3" maxlength="2" value="0" class="ratioTens"
+							   name="ratioTensp{{phaseNum}}" id="ratioTensp{{phaseNum}}"/>
+					<label for="ratioTensp{{phaseNum}}">.</label>
+					<input type="text" size="2" maxlength="1" class="ratioDecimal" value="0"
+								 name="ratioDecimalp{{phaseNum}}" id="ratioDecimalp{{phaseNum}}"/>
+					<label for="ratioDecimalp{{phaseNum}}">mL/g</label>
+				</div>
+			</section>
+			<section class="pTime">
+				<p class="fieldName">Phase Time</p>
+				<div class="fieldData">
+					<select name="minutesp{{phaseNum}}" id="minutesp{{phaseNum}}">
+						<option value="0"> 0 </option>
+						<option value="1"> 1 </option>
+						<option value="2"> 2 </option>
+						<option value="3"> 3 </option>
+						<option value="4"> 4 </option>
+						<option value="5"> 5 </option>
+					</select> :
+					<select name="secondsp{{phaseNum}}" id="secondsp{{phaseNum}}">
+						<option value="0"> 00 </option>
+						<option value="15"> 15 </option>
+						<option value="30" selected="true"> 30 </option>
+						<option value="45"> 45 </option>
+					</select>
+				</div>
+			</section>
+			<div class="cstBtn" id="removep{{phaseNum}}"> Remove phase </div>		
+        </div>
     </script>
 	<script>
 		//global variable to reference phase field template
@@ -74,9 +79,18 @@
 			populateForm(loadRecipe());
 
 			$("#backNav").click(function(){
-				$("html").fadeOut(function(){window.location='index.php';});
+				$("html").fadeOut(function(){window.location='recipes.html';});
 			});
-            //adds necessary event handlers
+			
+			$("#newPhaseButton").click(function(){
+				addNewPhase();
+			});
+			
+			$("#saveRecipeButton").click(function(){
+				saveRecipe();
+			});
+			
+			//Ties in utility functionality
             if($("#editSignal").val())
             {
                 //in edit mode, sets method name field to read only
@@ -103,7 +117,9 @@
 				$theMethod = $_GET['toEdit'];
 				$tableName = "recipesid".$_SESSION['userId'];
 
-				@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
+				include('./php_scripts/serverlogin.php');
+				
+				@ $db = new mysqli($hostname, $userName, $password, $database);
 
 				if (mysqli_connect_errno())
 				{
@@ -111,7 +127,7 @@
 					exit;
 				}
 
-				$query = "Select * from $tableName where methodName='".$theMethod."'";
+				$query = 'Select * from '.$tableName.' where methodName="'.$theMethod.'"';
 
 				$result = $db->query($query);
 				$theRecipe = $result->fetch_assoc();
@@ -231,7 +247,7 @@
                 var methodName = $("#methodName");
 
                 //recipe has no name
-                if (methodName.val() == "") {
+                if (methodName.val() == "" || methodName.val() == "New Recipe") {
                     alert("Need to name recipe");
                     return false;
                 }
@@ -240,6 +256,7 @@
                     alert("Recipe name exists");
                     return false;
                 }
+							
             }
 		//check phase memos
             var memos = document.getElementsByClassName("memoText");
@@ -259,10 +276,10 @@
             var brewRatio = 0.0;
                 brewRatio += Number(totalTensObj.removeClass("bad").val());
                 brewRatio += (Number(totalDecimalObj.removeClass("bad").val()) / 10);
-
+	
             var phaseTens = document.getElementsByClassName("ratioTens");
             var phaseDecimals = document.getElementsByClassName('ratioDecimal');
-
+			
             var recipeRatio = 0.0;
             for (var p = 0; p < phaseTens.length; p++)
             {
@@ -369,9 +386,10 @@
 		{
             if(validateForm())
             {
-				$("html").fadeOut(function(){
-					document.forms['recipeForm'].submit();
-
+				$.post("./php_scripts/addRecipe.php", $("#recipeForm").serialize(), function(){
+					$("html").fadeOut(function(){
+						window.location = "./recipes.html";
+					});
 				});
 			}
 		}
@@ -379,63 +397,66 @@
 	</script>
 </head>
 <body>
-<div id="container">
-	<div id="backNav">
-		<img src="images/backNavArrow.png" />
-		<label>Go Back</label>
-	</div>
-	<div id="formContainer">
-        <form id="recipeForm" action="php_scripts/addRecipe.php" method="POST">
-            <table id="formTable">
-            <tr>
-                <td class="fieldName"><label for="methodName">Method name</label></td>
-                <td class="fieldData"><input type="text" size="25" maxlength="25" id="methodName" name="methodName"/></td>
-            </tr>
-            <tr>
-                <td class="fieldName">Default Volume</td>
-                <td class="fieldData"><select id="volSelect" name="defaultVolume"></select> Oz</td>
-            </tr>
-            <tr>
-                <td class="fieldName">Brew Ratio</td>
-                <td class="fieldData">
-                <input type="text" size="3" placeholder="15" maxlength="2"
-                    id="brewRatioTens" name="brewRatioTens"/>
-                . <input type="text" size="2" placeholder="0" maxlength="1"
-                    id="brewRatioDecimal" name="brewRatioDecimal"/>mL water/g Coffee</td>
-            </tr>
-            <tr>
-                <td class="fieldName">Grind Size</td>
-                <td class="fieldData"><select id="grindSize" name="grindSize">
-                    <option value="Fine">Fine</option>
-                    <option value="Medium-Fine">Medium-Fine</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Medium-Coarse">Medium-Coarse</option>
-                    <option value="Coarse">Coarse</option>
-                    </select></td>
-            </tr>
-            <tr><td colspan="2" style="text-align:center">Brew Phases</td></tr>
-            <tr>
-                <td colspan="2" id="phaseFields"></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="checkbox" id="dilutionCheck" name="dilutionCheck" value="1">Include dilution phase?</input></td>
-            </tr>
-            <tr style="display:none" id="dilutionField">
-                <td class="fieldName">Dilution Ratio</td>
-                <td class="fieldData">
-                    <input type="text" size="3" placeholder="5" maxlength="2" id="dilutionRatio"
-                        name="dilutionRatio"></input> .
-                    <input type="text" size="2" placeholder="0" maxlength="1" id="dilutionRatioDecimal"
-                        name="dilutionRatioDecimal"></input>mL water/g Coffee</td>
-            </tr>
-            </table>
-            <input type="hidden" id="editSignal" name="editSignal"/>
-        </form>
-	</div>
+<div class="container">
+	<nav>
+		<div id="backNav">
+			<span class="glyphicon glyphicon-backward"></span>
+			<p>Go Back</p>
+		</div>
+	</nav>
+	<form id="recipeForm">
+		<section id="mName">
+			<p class="fieldName">Method name</p>
+			<input type="text" maxlength="25" class="fieldData" id="methodName" name="methodName"/>
+		</section>
+		<section id="dVolume">
+			<p class="fieldName">Default Volume</p>
+			<select class="fieldData" id="volSelect" name="defaultVolume"></select>
+			<label for="volSelect">oz</label>
+		</section>
+		<section id="bRatio">
+			<p class="fieldName">Brew Ratio</p>
+			<div class="fieldData">
+				<input type="text" size="3" placeholder="15" maxlength="2"
+					id="brewRatioTens" name="brewRatioTens"/>
+				<label for="brewRatioTens">.</label>
+				<input type="text" size="2" placeholder="0" maxlength="1"
+					id="brewRatioDecimal" name="brewRatioDecimal"/>
+				<label for="brewRatioDecimal">mL/g</label>
+			</div>
+		</section>
+		<section id="gSize">
+			<p class="fieldName">Grind Size</p>
+			<div class="fieldData">
+				<select id="grindSize" name="grindSize">
+					<option value="Fine">Fine</option>
+					<option value="Medium-Fine">Medium-Fine</option>
+					<option value="Medium">Medium</option>
+					<option value="Medium-Coarse">Medium-Coarse</option>
+					<option value="Coarse">Coarse</option>
+				</select>
+			</div>
+		</section>
+		<h2>Brew Phases</h2>
+		<section id="phaseFields"></section>
+		<section>
+			<input type="checkbox" id="dilutionCheck" name="dilutionCheck" value="1"/>
+			<label for="dilutionCheck">Include dilution phase?</label>
+			<div style="display:none" id="dilutionField">
+				<p class="fieldName">Dilution Ratio</p>
+					<input type="text" size="3" value="0"ttt maxlength="2" id="dilutionRatio"
+						name="dilutionRatio"/>
+					<label for="dilutionRatio">.</label>
+					<input type="text" size="2" value="0" maxlength="1" id="dilutionRatioDecimal"
+						name="dilutionRatioDecimal"/>
+					<label for="dilutionRatioDecimal">mL/g</label>
+			</div>
+		</section>
+		<input type="hidden" id="editSignal" name="editSignal"/>
+	</form>
 	<footer id="controls">
-	<div class="controlButton" onclick="addNewPhase()">New Phase</div>
-	<div class="controlButton" onclick="saveRecipe()" >Save Recipe</div>
+		<div class="cstBtn" id="newPhaseButton" >New Phase</div>
+		<div class="cstBtn" id="saveRecipeButton" >Save Recipe</div>
 	</footer>
 </div>
 </body>

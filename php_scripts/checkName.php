@@ -3,7 +3,9 @@
 	
 	$tableName = "recipesid".$_SESSION['userId'];
 	
-	@ $db = new mysqli("localhost", "coffeeTimer", "potato", "coffeetimer");
+	require('../php_scripts/serverlogin.php');
+	
+	@ $db = new mysqli($hostname, $userName, $password, $database);
 			
 	if (mysqli_connect_errno())
 	{
@@ -13,7 +15,7 @@
 	
 	$theMethod = mysqli_real_escape_string($db, $_GET['method']);
 
-	$query = "Select * from $tableName where methodName='$theMethod'";
+	$query = 'Select * from '.$tableName.' where methodName="'.$theMethod.'"';
 
 	$result = $db->query($query);
 

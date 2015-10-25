@@ -1,0 +1,52 @@
+<!DOCTYPE hmtl>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<head>
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="styles/login.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<nav id="controls">
+			<h1>Coffee Brewing</h1>
+		</nav>
+		
+		<h2>Login to brew some coffee</h2>
+		
+		<form id="loginForm" action="php_scripts/loginScript.php" method="post">
+			<div class="row">
+				<div class="col-xs-7">
+					<input id="usernameField" type="text" size="15" maxlength="20" />
+				</div>
+				<div class="col-xs-5">
+					<label for="usernameField">User name</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-7">
+					<input id="passwordField" type="password" size="15" maxlength="20"/>
+				</div>
+				<div class="col-xs-5">
+					<label for="passwordField">Password</label>
+				</div>
+			</div>
+			<div class="row" id="verifyPasswordField">
+				<div class="col-xs-7">
+					<input id="passwordVerify" type="password" size="15" maxlength="20" />
+				</div>
+				<div class="col-xs-5">
+					<label for="passwordVerify" >Verify password</label>
+				</div>
+			</div>
+		</form>
+		<section id="buttons">
+            <div id="login" class="cstBtn">Login</div>
+            <div id="cancel" class="cstBtn" style="display:none">Cancel</div>
+            <div id="newAccount" class="cstBtn">Register Account</div>
+		</section>
+	</div>
+	<script type="text/javascript" src="./js/login.js"></script>
+</body>
+</html>

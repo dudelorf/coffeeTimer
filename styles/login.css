@@ -1,32 +1,72 @@
-#container{
-    border: 2px solid #94B8B8;
-    width: 400px;
-    height: 550px;
-    background-color: #E8BA8D;
-    box-shadow:2px 2px;
-    text-align:center;
+body{
+	background-color:#9B6538 !important;
 }
-#controls
-{
-    background-color: #E6E6E6;
-    padding:5px;
-    height:45px;
-    text-align:left;
+.container{
+	text-align:center;
+	color:#F5D9C2;
+	font-family:cursive
 }
-.pageButton{
-    background-color:#94B8B8;
-    display:inline-block;
-    height:50px;
-    width:170px;
-    border:2px solid black;
-    border-radius: 5px;
-    font:20px arial;
 
+nav{
+	width:100%;
+	height:60px;
+	border:2px solid;
+	background-color:#421E00;
+	border-top:0px;
+	border-radius:0px 0px 10px 10px;
+	margin-bottom:5px;
 }
-.pageButton p{
-    margin:0px;
+nav h1{
+    margin-top:0px;
+    padding-top:6px;
 }
-.pageButton:hover
-{
-    border:2px solid white;
+
+form{
+    margin:15px 0px 40px 0px;
+}
+form input{
+    background-color:#F5D9C2;
+	color:#421E00 !important;
+	padding-left:10px;
+	border:2px solid #6A370C
+}
+form input:focus{
+	outline:none;
+}
+form .row{
+    margin-bottom:5px;
+}
+form label{
+    text-shadow:2px 2px #6A370C;
+}
+h2{
+    text-shadow:2px 2px #6A370C;
+    border-bottom:2px solid #6A370C;
+    padding-bottom:10px;
+}
+.cstBtn {
+	display:inline;
+    padding:10px 5px;
+    background-color: #421E00;
+	border: 2px solid #421E00;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+ 
+.cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
+    outline: 0 none;
+}
+ 
+.cstBtn:hover{
+    background: #F5D9C2;
+    color: #421E00;
+}
+ 
+.cstBtn:active, .cstBtn.active {
+    background: #6A370C;
+    box-shadow: none;
+}
+#verifyPasswordField{
+    opacity:0;
 }

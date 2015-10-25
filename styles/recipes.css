@@ -1,0 +1,94 @@
+body{
+	background-color:#9B6538 !important;
+	color: #F5D9C2 !important;
+	text-align:center;
+	font-family:cursive !important;
+}
+nav{
+	width:100%;
+	height:60px;
+	border:2px solid;
+	background-color:#421E00;
+	border-top:0px;
+	border-radius:0px 0px 10px 10px;
+}
+#controls{
+	text-align:left;
+	font-size:2em;
+	margin:0px 10px;
+	padding-top:10px;
+}
+#controls span{
+	display:inline-block;
+
+}
+#contols label{
+	display:inline-block;
+}
+#dropdownMenu{
+	text-align:left;
+	position:relative;
+	display:none;
+	top:5px;
+	left:40px;
+	width:180px;
+	border:2px solid;
+	background-color:#C3956E;
+	color:#421E00;
+	border-top:0px;
+	border-radius: 0px 0px 10px 10px;
+}
+#menuOptions{
+	list-style:none;
+	margin:0px;
+	padding:10px 20px;
+	font-weight:bold;
+}
+#menuOptions li{
+	font-size:1.3em;
+	margin:5px 0px;
+}
+h1{
+	text-shadow:2px 2px #421E00;
+	padding-bottom:20px;
+	border-bottom:2px solid #421E00;
+}
+#buttonContainer{
+	display:none;
+}
+.cstBtn {
+    padding: 10px;
+    background-color: #421E00;
+	border: 2px solid #C3956E;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+ 
+.cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
+    outline: 0 none;
+}
+ 
+.cstBtn:hover{
+    background: #F5D9C2;
+    color: #421E00;
+}
+ 
+.cstBtn:active, .cstBtn.active {
+    background: #6A370C;
+    box-shadow: none;
+}
+
+#methods{
+	list-style:none !important;
+	margin:30px 20px;
+	padding:0px;
+
+}
+#methods li{
+	margin:20px 0px;
+}
+.removeRecipe
+{
+	background-color:red;
+}

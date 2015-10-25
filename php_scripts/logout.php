@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	function window_onload()
 	{
-		window.location = "../home.htm";
+		window.location = "../index.htm";
 	}
 </script>
 </body>
