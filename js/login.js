@@ -39,7 +39,7 @@ $(document).ready(function() {
 });
 
 function beginLogin(){
-	$.get("./php_scripts/loginScript.php",
+	$.get("php_scripts/loginScript.php",
 				{
 					userName: $("#usernameField").val(),
 					userPassword: $("#passwordField").val()
