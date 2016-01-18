@@ -4,7 +4,7 @@ body{
 .container{
 	text-align:center;
 	color:#F5D9C2;
-	font-family:cursive
+	font-family:serif;
 }
 
 nav{
@@ -47,16 +47,16 @@ section .fieldData{
     letter-spacing: 2px;
     text-transform: uppercase;
 }
- 
+
 .cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
     outline: 0 none;
 }
- 
+
 .cstBtn:hover{
     background: #F5D9C2;
     color: #421E00;
 }
- 
+
 .cstBtn:active, .cstBtn.active {
     background: #6A370C;
     box-shadow: none;
@@ -65,8 +65,10 @@ input, select{
 	background-color:#F5D9C2;
 	color:#421E00 !important;
 	text-align:center;
-	border:2px solid #6A370C
-	
+	border:2px solid #6A370C;
+}
+#volSelectLabel{
+	float:right;
 }
 input:focus, select:focus{
 	outline:none;

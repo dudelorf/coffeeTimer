@@ -49,7 +49,7 @@
 					</select>
 				</div>
 			</section>
-			<div class="cstBtn" id="removep{{phaseNum}}"> Remove phase </div>		
+			<div class="cstBtn" id="removep{{phaseNum}}"> Remove phase </div>
         </div>
     </script>
 	<script>
@@ -81,15 +81,15 @@
 			$("#backNav").click(function(){
 				$("html").fadeOut(function(){window.location='recipes.html';});
 			});
-			
+
 			$("#newPhaseButton").click(function(){
 				addNewPhase();
 			});
-			
+
 			$("#saveRecipeButton").click(function(){
 				saveRecipe();
 			});
-			
+
 			//Ties in utility functionality
             if($("#editSignal").val())
             {
@@ -118,7 +118,7 @@
 				$tableName = "recipesid".$_SESSION['userId'];
 
 				include('./php_scripts/serverlogin.php');
-				
+
 				@ $db = new mysqli($hostname, $userName, $password, $database);
 
 				if (mysqli_connect_errno())
@@ -256,7 +256,7 @@
                     alert("Recipe name exists");
                     return false;
                 }
-							
+
             }
 		//check phase memos
             var memos = document.getElementsByClassName("memoText");
@@ -276,10 +276,10 @@
             var brewRatio = 0.0;
                 brewRatio += Number(totalTensObj.removeClass("bad").val());
                 brewRatio += (Number(totalDecimalObj.removeClass("bad").val()) / 10);
-	
+
             var phaseTens = document.getElementsByClassName("ratioTens");
             var phaseDecimals = document.getElementsByClassName('ratioDecimal');
-			
+
             var recipeRatio = 0.0;
             for (var p = 0; p < phaseTens.length; p++)
             {
@@ -411,8 +411,8 @@
 		</section>
 		<section id="dVolume">
 			<p class="fieldName">Default Volume</p>
+			<label for="volSelect" id="volSelectLabel"> oz</label>
 			<select class="fieldData" id="volSelect" name="defaultVolume"></select>
-			<label for="volSelect">oz</label>
 		</section>
 		<section id="bRatio">
 			<p class="fieldName">Brew Ratio</p>

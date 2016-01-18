@@ -1,7 +1,7 @@
 /*
 Timer class
 Holds information from coffee recipe and implements timer functionality
-*/ 
+*/
 
 function Timer(
 			recipeObject,
@@ -21,29 +21,29 @@ function Timer(
 	}
 	this.brewRatio = Number(recipeObject.brewRatio);
 	this.dilutionRatio = Number(recipeObject.dilutionRatio);
-	
+
 	//assign input elements
 	this.startButton = startBtn;
 	this.stopButton = stopBtn;
 	this.increaseVolumeButton = increaseVolBtn;
 	this.decreaseVolumeButton = decreaseVolBtn;
-	
+
 	//assign output elements
 	this.volumeDisplay = volDisplay;
 	this.clockDisplay = clock;
 	this.gramsCoffeeDisplay = gCoffee;
 	this.gramsWaterDisplay = gWater;
 	this.memoDisplay = memo;
-	
+
 	//functional properties
 	this.timerActive = false;
 	this.phaseNum = 0;
 	this.phaseTime = 0;
 	this.waterTracker = 0;
 	this.waterForPhase = [];
-	
+
 	var timerRef = null //stores timeout
-	
+
 	Timer.prototype.activateDisplay = function()
 	//sets values to all output elements and adds event handlers to inputs
 	{
@@ -52,19 +52,19 @@ function Timer(
 		this.stopButton.addEventListener("click", this.stopTimer.bind(this));
 		this.increaseVolumeButton.addEventListener("click", this.changeVolume.bind(this, "+"));
 		this.decreaseVolumeButton.addEventListener("click", this.changeVolume.bind(this, "-"));
-		
+
 		//initialize water for phases
-		this.waterForPhase = this.getWaterArr();		
-		
+		this.waterForPhase = this.getWaterArr();
+
 		//initialize output elements
 		method.innerHTML = recipeObject.methodName;
-		this.volumeDisplay.innerHTML = this.volume;	
+		this.volumeDisplay.innerHTML = this.volume;
 		this.clockDisplay.innerHTML = this.showTime(this.getTotalTime());
 		this.gramsCoffeeDisplay. innerHTML = this.getGramsCoffee(this.volume, this.brewRatio);
 		this.gramsWaterDisplay.innerHTML = this.getTotalWater();
 		this.memoDisplay.innerHTML = "Click start to begin";
 	};
-	
+
 	Timer.prototype.resetDisplay = function()
 	{
 		this.clockDisplay.innerHTML = this.showTime(this.getTotalTime());
@@ -82,7 +82,7 @@ function Timer(
 		}
 		return totalTime;
 	};
-	
+
 	Timer.prototype.showTime = function(secs)
 	//takes time in seconds and returns formatted string
 	{
@@ -98,10 +98,10 @@ function Timer(
 			seconds = "0" + seconds;
 		}
 		outputStr += mins + ":" + seconds;
-		
+
 		return outputStr;
 	};
-	
+
 	//interactivity functions
 	Timer.prototype.increaseVolume = function()
 	{
@@ -131,9 +131,9 @@ function Timer(
 		if(this.volume == 6) //reached minimum volume - disable decrease button
 			$(this.decreaseVolumeButton).addClass("disabled");
 	};
-	
+
 	Timer.prototype.dilutionCountdown = function()
-	{		
+	{
 		if(this.phaseTime == 0)
 		{
 			this.memoDisplay.innerHTML = "Brew is complete, Enjoy!";
@@ -145,37 +145,45 @@ function Timer(
 			}, 5000);
 			return;
 		}
-		
+
 		document.getElementById("clock").innerHTML =
 						this.showTime(--this.phaseTime);
 
 		setTimeout(this.dilutionCountdown.bind(this), 1000);
 	}
-	
+
 	Timer.prototype.changeVolume = function(opr)
 	//adjusts volume and update display accordingly
 	{
 		//changes volume
 		if (opr == '+') this.increaseVolume();
 		else this.decreaseVolume();
-		
+
 		//updates display
 		this.volumeDisplay.innerHTML = this.volume;
 		this.gramsCoffeeDisplay.innerHTML = this.getGramsCoffee(this.volume, this.brewRatio);
 		this.waterForPhase = this.getWaterArr(); //calculates water for phases with new volume
 		this.gramsWaterDisplay.innerHTML = this.getTotalWater();
 	};
-	
+
 	Timer.prototype.playBeep = function()
 	{
-		if (!this.beep)
-		{
-			this.beep = document.getElementById("beepElem");
-		}
-		
-		this.beep.play();
+		//create audio context
+	  var ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+	  //create and set up osciallator
+	  var oscillator = ctx.createOscillator();
+	  oscillator.connect(ctx.destination);
+	  oscillator.type = 'square';
+	  oscillator.frequency.value = 2000; // value in hertz
+	  oscillator.start();
+
+	  //stop oscillator after perscribed time
+	  setTimeout(function(){
+	    oscillator.stop();
+	  }, 500);
 	}
-	
+
 	Timer.prototype.startTimer = function()
 	{
 		if(!this.timerActive){
@@ -188,18 +196,18 @@ function Timer(
 
 			//show first phase time
 			this.phaseTime = this.phaseTimes[this.phaseNum];
-			document.getElementById("clock").innerHTML = 
+			document.getElementById("clock").innerHTML =
 									this.showTime(this.phaseTime);
 			//calculate water for phase
 			this.waterTracker += this.waterForPhase[this.phaseNum];
 			this.gramsWaterDisplay.innerHTML = this.waterTracker;
-			
+
 			this.phaseNum++;
-			
+
 			timerRef = setTimeout(this.decreaseTime.bind(this), 1000);
 		}
 	};
-	
+
 	Timer.prototype.getWaterArr = function()
 	//returns array contain ml of water for each phase
 	{
@@ -210,7 +218,7 @@ function Timer(
 		}
 		return waterArr;
 	};
-	
+
 	Timer.prototype.getWaterForPhase = function(ratio)
 	//returns ml of water for supplied phase number
 	{
@@ -219,7 +227,7 @@ function Timer(
 		mlWater = Math.round(grams * ratio);
 		return mlWater;
 	};
-	
+
 	Timer.prototype.getTotalWater = function()
 	//returns total ml of water for recipe
 	{
@@ -230,7 +238,7 @@ function Timer(
 		}
 		return totalWater;
 	};
-	
+
 	Timer.prototype.decreaseTime = function()
 	{
 		//if(!this.timerActive) return;
@@ -262,7 +270,7 @@ function Timer(
 				//calculate water for phase and update display
 				this.waterTracker += this.waterForPhase[this.phaseNum];
 				this.gramsWaterDisplay.innerHTML = this.waterTracker;
-				
+
 				this.phaseNum++;
 			}
 		}
@@ -280,7 +288,7 @@ function Timer(
 			}, 1500);
 		}
 	}
-	
+
 	//utility functions to calculate recipe details
 	Timer.prototype.getGramsCoffee = function(vol, brewRatio)
 	//returns grams of coffee when supplied volume in oz and brew ratio in gramsCoffee/ozWater
@@ -289,5 +297,5 @@ function Timer(
 		var gCoffee = mlVol / (brewRatio - 1.5/*retained water*/);
 		return Math.round(gCoffee);
 	};
-	
+
 }

@@ -2,7 +2,7 @@ body{
 	background-color:#9B6538 !important;
 	color: #F5D9C2 !important;
 	text-align:center;
-	font-family:cursive !important;
+	font-family:serif !important;
 }
 nav{
 	width:100%;
@@ -64,16 +64,16 @@ h1{
     letter-spacing: 3px;
     text-transform: uppercase;
 }
- 
+
 .cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
     outline: 0 none;
 }
- 
+
 .cstBtn:hover{
     background: #F5D9C2;
     color: #421E00;
 }
- 
+
 .cstBtn:active, .cstBtn.active {
     background: #6A370C;
     box-shadow: none;

@@ -4,7 +4,7 @@ body{
 .container{
 	text-align:center;
 	color:#F5D9C2;
-	font-family:cursive
+	font-family:serif;
 }
 
 nav{
@@ -53,16 +53,16 @@ h2{
     letter-spacing: 2px;
     text-transform: uppercase;
 }
- 
+
 .cstBtn:focus, .cstBtn:active:focus, .cstBtn.active:focus {
     outline: 0 none;
 }
- 
+
 .cstBtn:hover{
     background: #F5D9C2;
     color: #421E00;
 }
- 
+
 .cstBtn:active, .cstBtn.active {
     background: #6A370C;
     box-shadow: none;

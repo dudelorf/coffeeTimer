@@ -58,31 +58,31 @@
 		//global variables
 		<?php
 			$theMethod = $_GET["brewSelect"];
-			
+
 			require('./php_scripts/serverlogin.php');
-			
+
 			@ $db = new mysqli($hostname, $userName, $password, $database);
-			
+
 			if (mysqli_connect_errno())
 			{
 				echo "Could not connect to database. Try something else.";
 				exit;
 			}
-			
+
 			$tableName = "recipesid".$_SESSION['userId'];
-			
+
 			$query = "Select * from $tableName where methodName='".$theMethod."'";
-			
+
 			$result = $db->query($query);
 			$theRecipe = $result->fetch_assoc();
 			$theRecipe['phaseMemos'] = unserialize($theRecipe['phaseMemos']);
 			$theRecipe['phaseTimes'] = unserialize($theRecipe['phaseTimes']);
 			$theRecipe['phaseRatios'] = unserialize($theRecipe['phaseRatios']);
-			
+
 			$db->close();
 		?>
 		var timer;
-	
+
 		function window_onload()
 		//page init
 		{
@@ -90,12 +90,12 @@
 			timer = new Timer(
 			//recipe object
 			<?php echo json_encode($theRecipe); ?>,
-			//assign inputs 
+			//assign inputs
 			document.getElementById("startBtn"),
 			document.getElementById("stopPauseBtn"),
 			document.getElementById("increaseVolume"),
 			document.getElementById("decreaseVolume"),
-			//assign outputs: 
+			//assign outputs:
 			document.getElementById("brewName"),
 			document.getElementById("volumeDisplay"),
 			document.getElementById("clock"),
@@ -103,17 +103,16 @@
 			document.getElementById("gramsWater"),
 			document.getElementById("memo")
 			);
-			
+
 			//activates display
 			timer.activateDisplay();
-			
+
 			$("#backNav").click(function(){
 				$("html").fadeOut(function(){window.location='../recipes.html';});
 			});
-				
+
 			$("body").fadeIn(100);
 		}
 	</script>
-	<audio id="beepElem" src="lib/beep.wav" autostart="false" width="0" height="0" enablejavascript="true"/>
 </body>
 </html>

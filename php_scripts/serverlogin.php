@@ -1,6 +1,6 @@
 <?php
 $hostname = "localhost";
 $userName = "coffeeAdmin";
-$password = "myPassword";
+$password = "Dud3Lorf";
 $database = "coffeetimer";
 ?>
