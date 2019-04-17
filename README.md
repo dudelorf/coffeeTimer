@@ -1,6 +1,8 @@
 # Coffee Timer
 An app for brewing custom coffee reipes
 
+[Live Demo](http://dudelorf.co.nf)
+
 One of the best ways to unlock the flavors of specialty coffee is through manual brewing methods such as the Hario V60, Aeropress and French Press. As each different coffee and each particular brewing method require different parameters and techniques it be can easy to forget the particulars of a given recipe for producing that perfect cup. I built this app as a way to overcome that difficulty.
 
 <h2>Getting Started</h1>
